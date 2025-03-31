@@ -1,0 +1,98 @@
+﻿<Window x:Class="CodingTrackerWPF.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:local="clr-namespace:CodingTrackerWPF"
+        mc:Ignorable="d"
+        Style="{StaticResource MaterialDesignWindow}"
+        Title="MainWindow" Height="450" Width="800">
+
+    <materialDesign:DrawerHost
+        x:Name="DrawerHost"
+        Margin="0"
+        HorizontalAlignment="Stretch"
+        VerticalAlignment="Stretch"
+        BorderBrush="{DynamicResource MaterialDesignDivider}"
+        BorderThickness="2"
+        BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}"
+        BottomDrawerCornerRadius="20 20 0 0"
+        >
+
+        <materialDesign:DrawerHost.LeftDrawerContent>
+            <StackPanel Margin="16">
+                <TextBlock Text="Menu"
+                           FontSize="20"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center" />
+
+                <Button Name="Home"
+                        Content="Home"
+                        Click="OnDrawerItemClick"
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0,5,0,0" />
+
+                <Button Name="CodingSessionsButton"
+                        Content="CodingSessionsButton"
+                        Click="OnDrawerItemClick"
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0,5,0,0" />
+
+                <Button Content="Exit"
+                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="0,5,0,0" />
+            </StackPanel>
+        </materialDesign:DrawerHost.LeftDrawerContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Top Bar -->
+            <DockPanel Grid.Row="0" 
+                      Grid.Column="0"   
+                      Background="{DynamicResource PrimaryHueMidBrush}" 
+                      Height="Auto"
+                      HorizontalAlignment="Left"     >
+
+                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Content="{materialDesign:PackIcon Kind=Menu, Size=32}"
+                        Style="{StaticResource MaterialDesignIconButton}"
+                        DockPanel.Dock="Left"
+                        Margin="4" >
+                </Button>
+
+                
+
+            </DockPanel>
+
+            <!-- Main Content Area 
+            <Grid Grid.Row="1"
+                  HorizontalAlignment="Center"
+                  VerticalAlignment="Center">
+                <TextBlock 
+                           Text="Main Content Area"
+                           FontSize="24"
+                           FontWeight="Bold" />
+            </Grid>-->
+            <ContentControl Grid.Row="1"
+                            Grid.Column="0"
+                            Grid.ColumnSpan="2"
+                            x:Name="MainContent"/>
+        </Grid>
+    </materialDesign:DrawerHost>
+</Window>
