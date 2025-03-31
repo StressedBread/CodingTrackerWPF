@@ -9,16 +9,15 @@
         Style="{StaticResource MaterialDesignWindow}"
         Title="MainWindow" Height="450" Width="800">
 
-    <materialDesign:DrawerHost
-        x:Name="DrawerHost"
-        Margin="0"
-        HorizontalAlignment="Stretch"
-        VerticalAlignment="Stretch"
-        BorderBrush="{DynamicResource MaterialDesignDivider}"
-        BorderThickness="2"
-        BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}"
-        BottomDrawerCornerRadius="20 20 0 0"
-        >
+    <!--Drawer-->
+    <materialDesign:DrawerHost x:Name="DrawerHost"
+                            Margin="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            BorderBrush="{DynamicResource MaterialDesignDivider}"
+                            BorderThickness="2"
+                            BottomDrawerBackground="{DynamicResource SecondaryHueLightBrush}"
+                            BottomDrawerCornerRadius="20 20 0 0" >
 
         <materialDesign:DrawerHost.LeftDrawerContent>
             <StackPanel Margin="16">
@@ -36,7 +35,7 @@
                         Margin="0,5,0,0" />
 
                 <Button Name="CodingSessionsButton"
-                        Content="CodingSessionsButton"
+                        Content="Coding Sessions"
                         Click="OnDrawerItemClick"
                         Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                         CommandParameter="{x:Static Dock.Left}"
@@ -51,48 +50,35 @@
             </StackPanel>
         </materialDesign:DrawerHost.LeftDrawerContent>
 
+        <!--Main Grid-->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!-- Top Bar -->
-            <DockPanel Grid.Row="0" 
-                      Grid.Column="0"   
-                      Background="{DynamicResource PrimaryHueMidBrush}" 
-                      Height="Auto"
-                      HorizontalAlignment="Left"     >
+            <!--Menu Button-->
+            <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                    CommandParameter="{x:Static Dock.Left}"
+                    Content="{materialDesign:PackIcon Kind=Menu, Size=32}"
+                    Style="{StaticResource MaterialDesignIconButton}"
+                    DockPanel.Dock="Left"
+                    Margin="4" >
+            </Button>
 
-                <Button Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Content="{materialDesign:PackIcon Kind=Menu, Size=32}"
-                        Style="{StaticResource MaterialDesignIconButton}"
-                        DockPanel.Dock="Left"
-                        Margin="4" >
-                </Button>
-
-                
-
-            </DockPanel>
-
-            <!-- Main Content Area 
-            <Grid Grid.Row="1"
-                  HorizontalAlignment="Center"
-                  VerticalAlignment="Center">
-                <TextBlock 
-                           Text="Main Content Area"
-                           FontSize="24"
-                           FontWeight="Bold" />
-            </Grid>-->
+            <!--Content Area-->
             <ContentControl Grid.Row="1"
                             Grid.Column="0"
                             Grid.ColumnSpan="2"
-                            x:Name="MainContent"/>
+                            x:Name="MainContent"
+                            />
         </Grid>
     </materialDesign:DrawerHost>
 </Window>

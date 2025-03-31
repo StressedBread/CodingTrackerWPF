@@ -20,8 +20,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         MainContent.Content = new HomeView();
-    }
-    
+    }    
     private void OnDrawerItemClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button button)

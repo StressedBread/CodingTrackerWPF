@@ -4,14 +4,51 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodingTrackerWPF.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <TextBlock Text="Coding Sessions"
-               FontSize="18"
-               Foreground="White"
-               VerticalAlignment="Center"
-               HorizontalAlignment="Center"
-               Margin="10,0,0,0"/>
-    </Grid>
+    <materialDesign:DialogHost>
+        <Grid >
+            <DataGrid x:Name="MainDataGrid"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="True"
+                  SelectionMode="Single"
+                  SelectionUnit="FullRow"
+                  Background="{DynamicResource MaterialDesignPaper}"
+                  Foreground="{DynamicResource MaterialDesignBody}"
+                  GridLinesVisibility="All"
+                  HorizontalGridLinesBrush="Gray"
+                  VerticalGridLinesBrush="Gray"
+                  RowHeaderWidth="0"
+                  materialDesign:DataGridAssist.CellPadding="8"
+                  materialDesign:DataGridAssist.ColumnHeaderPadding="8"
+                  VerticalAlignment="Stretch"
+                  HorizontalAlignment="Stretch"
+                  Margin="10 0 10 10"
+                  FontSize="16"                      
+                  >
+
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="ID" 
+                                    Binding="{Binding Id}" 
+                                    Width="auto"
+                                    />
+
+                    <DataGridTextColumn Header="Start Date Time" 
+                                    Binding="{Binding StartDateTimeFormatted}" 
+                                    Width="*"/>
+
+                    <DataGridTextColumn Header="End Date Time" 
+                                    Binding="{Binding EndDateTimeFormatted}" 
+                                    Width="*"/>
+
+                    <DataGridTextColumn Header="Duration" 
+                                    Binding="{Binding Duration}" 
+                                    Width="auto"/>
+                </DataGrid.Columns>
+            </DataGrid>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>
