@@ -1,4 +1,6 @@
-﻿using System.Text;
+﻿using MaterialDesignThemes.Wpf;
+using MaterialDesignColors.ColorManipulation;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -25,17 +27,14 @@ public partial class MainWindow : Window
     {
         if (sender is Button button)
         {
-            switch (button.Name)
+            switch (button.Tag)
             {
-                case "Home":
+                case "HomeButton":
                     MainContent.Content = new HomeView();
                     break;
                 case "CodingSessionsButton":
                     MainContent.Content = new CodingSessionsView();
                     break;
-                /*case "SettingsButton":
-                    MainContent.Content = new SettingsView();
-                    break;*/
                 default:
                     break;
             }

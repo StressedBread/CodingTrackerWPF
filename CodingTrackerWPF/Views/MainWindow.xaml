@@ -7,7 +7,7 @@
         xmlns:local="clr-namespace:CodingTrackerWPF"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="720" Width="1280">
 
     <!--Drawer-->
     <materialDesign:DrawerHost x:Name="DrawerHost"
@@ -20,63 +20,107 @@
                             BottomDrawerCornerRadius="20 20 0 0" >
 
         <materialDesign:DrawerHost.LeftDrawerContent>
-            <StackPanel Margin="16">
-                <TextBlock Text="Menu"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <StackPanel Margin="10"
+                            Grid.Row="0">
+                    <TextBlock Text="Menu"
                            FontSize="20"
                            FontWeight="Bold"
-                           HorizontalAlignment="Center" />
+                           HorizontalAlignment="Center" 
+                           Height="36"/>
 
-                <Button Name="Home"
-                        Content="Home"
-                        Click="OnDrawerItemClick"
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="0,5,0,0" />
+                    <Button Tag="HomeButton"
+                            Click="OnDrawerItemClick"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Height="36"
+                            Margin="0,5,0,0">
+                        
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!-- Icon -->
+                                <materialDesign:PackIcon Kind="Home" Width="18" Height="18" VerticalAlignment="Center" />
 
-                <Button Name="CodingSessionsButton"
-                        Content="Coding Sessions"
-                        Click="OnDrawerItemClick"
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="0,5,0,0" />
+                                <!-- Text -->
+                                <TextBlock Text="Home" VerticalAlignment="Center" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button.Content>
+                        
+                    </Button>
 
-                <Button Content="Exit"
-                        Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
-                        CommandParameter="{x:Static Dock.Left}"
-                        Style="{StaticResource MaterialDesignFlatButton}"
-                        Margin="0,5,0,0" />
-            </StackPanel>
+                    <Button Tag="CodingSessionsButton"
+                            Click="OnDrawerItemClick"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Height="36"
+                            Margin="0,5,0,0" >
+                        
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!-- Icon -->
+                                <materialDesign:PackIcon Kind="Table" Width="18" Height="18" VerticalAlignment="Center" />
+
+                                <!-- Text -->
+                                <TextBlock Text="Coding Sessions" VerticalAlignment="Center" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button.Content>
+                        
+                    </Button>
+
+                    <Button Content="Exit"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Height="36"
+                            Margin="0,5,0,0" />                    
+                </StackPanel>
+            </Grid>
         </materialDesign:DrawerHost.LeftDrawerContent>
 
         <!--Main Grid-->
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
 
-            <!--Menu Button-->
-            <Button Grid.Row="0"
-                    Grid.Column="0"
-                    Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
-                    CommandParameter="{x:Static Dock.Left}"
-                    Content="{materialDesign:PackIcon Kind=Menu, Size=32}"
-                    Style="{StaticResource MaterialDesignIconButton}"
-                    DockPanel.Dock="Left"
-                    Margin="4" >
-            </Button>
+            <StackPanel Grid.Column="0"
+                        Margin="0,10,0,0">
+                
+                <!--Menu Button-->
+                <Button Content="{materialDesign:PackIcon Kind=Menu, Size=32}"
+                        Style="{StaticResource MaterialDesignIconButton}"
+                        Command="{x:Static materialDesign:DrawerHost.OpenDrawerCommand}"
+                        CommandParameter="{x:Static Dock.Left}"
+                        Height="36"/>
+
+                <Button Tag="HomeButton"
+                        Click="OnDrawerItemClick"
+                        Content="{materialDesign:PackIcon Kind=Home, Size=32}" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        CommandParameter="{x:Static Dock.Left}" 
+                        Margin="0,5,0,0" 
+                        Height="36"/>
+
+                <Button Tag="CodingSessionsButton"
+                        Click="OnDrawerItemClick"
+                        Content="{materialDesign:PackIcon Kind=Table, Size=32}" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        CommandParameter="{x:Static Dock.Left}" 
+                        Margin="0,5,0,0" 
+                        Height="36"/>
+
+            </StackPanel>
 
             <!--Content Area-->
-            <ContentControl Grid.Row="1"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
+            <ContentControl Grid.Column="1"
                             x:Name="MainContent"
                             />
         </Grid>
