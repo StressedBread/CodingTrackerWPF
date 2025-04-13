@@ -1,8 +1,8 @@
 ﻿namespace CodingTrackerWPF.Models;
 
-internal class CodingSession
+public class CodingSession
 {
-    public long Id { get; set; }
+    public Int32 Id { get; set; }
     public DateTime StartDateTime { get; set; }
     public DateTime EndDateTime { get; set; }
     public TimeSpan Duration { get; set; }
@@ -10,7 +10,21 @@ internal class CodingSession
     public string StartDateTimeFormatted => StartDateTime.ToString("dd.MM.yyyy HH:mm:ss");
     public string EndDateTimeFormatted => EndDateTime.ToString("dd.MM.yyyy HH:mm:ss");
 
-    public CodingSession(long id, DateTime startDateTime, DateTime endDateTime, TimeSpan duration)
+    public CodingSession(DateTime startDateTime, DateTime endDateTime, TimeSpan duration)
+    {
+        StartDateTime = startDateTime;
+        EndDateTime = endDateTime;
+        Duration = duration;
+    }
+
+    public CodingSession(Int32 id, DateTime startDateTime, DateTime endDateTime)
+    {
+        Id = id;
+        StartDateTime = startDateTime;
+        EndDateTime = endDateTime;
+    }
+
+    public CodingSession(Int32 id, DateTime startDateTime, DateTime endDateTime, TimeSpan duration)
     {
         Id = id;
         StartDateTime = startDateTime;

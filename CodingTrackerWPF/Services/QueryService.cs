@@ -1,19 +1,30 @@
 ﻿using MySql.Data.MySqlClient;
 using Dapper;
 using System.Data;
+using CodingTrackerWPF.Models;
 
 namespace CodingTrackerWPF.Services;
 
-internal class QueryService
+public class QueryService
 {
     private string? _connectionString = App.ConfigurationJson["ConnectionStrings:DefaultConnection"];
 
-    internal void ExecuteQuery(string query, object? parameters = null)
+    public void ExecuteQuery(string query, object? parameters = null)
     {
         using (IDbConnection connection = new MySqlConnection(_connectionString))
         {
             connection.Open();
             connection.Execute(query, parameters);
+        }
+    }
+
+    public async Task<List<CodingSession>> ReaderAsync(string query)
+    {
+        using (IDbConnection connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            var result = await connection.QueryAsync<CodingSession>(query).ConfigureAwait(false);
+            return result.ToList();
         }
     }
 }

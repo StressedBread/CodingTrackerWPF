@@ -4,11 +4,17 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodingTrackerWPF.Views"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             xmlns:viewmodels="clr-namespace:CodingTrackerWPF.ViewModels" 
              mc:Ignorable="d" 
+             Loaded="UserControl_Loaded"
              d:DesignHeight="450" d:DesignWidth="800">
-    <materialDesign:DialogHost>
-        <Grid >
+    <materialDesign:DialogHost Identifier="RootDialog">
+        <materialDesign:DialogHost.DialogContent>
+            <TextBlock Text="Placeholder"
+                       Margin="16"/>
+        </materialDesign:DialogHost.DialogContent>
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
@@ -22,58 +28,20 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Button Grid.Column="0"
+                    <Button 
+                            Grid.Column="0"
                             Name="AddRecordButton"
                             Content="Add Record"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Margin="0,5,0,5"
-                            Command="{x:Static materialDesign:DialogHost.OpenDialogCommand}">
-                        <Button.CommandParameter>
-                            <Grid
-                                Margin="-1">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition
-                                        Height="*" />
-                                    <RowDefinition
-                                        Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <StackPanel
-                                      Grid.Row="0"
-                                      Orientation="Horizontal"> 
-                                    <Calendar
-                                        x:Name="CombinedCalendar"
-                                        Margin="-1,-4,-1,0"
-                                        />
-                                    <materialDesign:Clock
-                                        x:Name="CombinedClock"
-                                        DisplayAutomation="CycleWithSeconds"
-                                        Is24Hours="True"
-                                        />
-                                </StackPanel>
-                                <StackPanel
-                                  Grid.Row="1"
-                                  Margin="8"
-                                  HorizontalAlignment="Right"
-                                  Orientation="Horizontal">
-                                    <Button
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        CommandParameter="0"
-                                        Content="CANCEL"
-                                        Style="{StaticResource MaterialDesignFlatButton}" />
-                                    <Button
-                                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
-                                        CommandParameter="1"
-                                        Content="OK"
-                                        Style="{StaticResource MaterialDesignFlatButton}" />
-                                </StackPanel>
-                            </Grid>
-                        </Button.CommandParameter>
+                            Command="{Binding OpenCommand}">
                     </Button>
                 </Grid>
             </Grid>
 
             <DataGrid   Grid.Row="1"    
                     x:Name="MainDataGrid"
+                    ItemsSource="{Binding CodingSessions}"
                     AutoGenerateColumns="False"
                     CanUserAddRows="False"
                     CanUserDeleteRows="False"

@@ -10,6 +10,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using CodingTrackerWPF.ViewModels;
+using CodingTrackerWPF.Interfaces;
+using CodingTrackerWPF.Services;
 
 namespace CodingTrackerWPF.Views;
 
@@ -21,6 +24,10 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+
+        ICodingSessionService codingSessionService = new CodingSessionService();
+        DataContext = new MainWindowViewModel(codingSessionService);
+
         MainContent.Content = new HomeView();
     }    
     private void OnDrawerItemClick(object sender, RoutedEventArgs e)
