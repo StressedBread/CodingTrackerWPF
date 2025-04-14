@@ -24,8 +24,6 @@ namespace CodingTrackerWPF.Views
         public DateTimePickerView()
         {
             InitializeComponent();
-
-            DataContext = new DateTimeDialogViewModel();
         }
     }
 }

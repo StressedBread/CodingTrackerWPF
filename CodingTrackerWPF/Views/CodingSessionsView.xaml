@@ -40,11 +40,11 @@
 
                     <Button 
                             Grid.Column="1"
-                            Name="EditRecordButton"
-                            Content="Edit Record"
+                            Name="DeleteRecordButton"
+                            Content="Delete Record"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Margin="0,5,0,5"
-                            Command="">
+                            Command="{Binding DeleteCommand}">
                     </Button>
                 </Grid>
             </Grid>

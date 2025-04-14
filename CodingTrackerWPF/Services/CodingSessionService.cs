@@ -53,4 +53,11 @@ public class CodingSessionService : ICodingSessionService
 
         _queryService.ExecuteQuery(query, _parameters);
     }
+
+    public void DeleteSession(Int32 id)
+    {
+        var query = QueryStore.DeleteSession;
+        _parameters.Add("@id", id);
+        _queryService.ExecuteQuery(query, _parameters);
+    }
 }

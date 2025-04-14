@@ -2,7 +2,7 @@
 
 public interface IDateTimeDialogService
 {
-    Task<DateTime?> GetSessionDateTimeStartAsync();
-    Task<DateTime?> GetSessionDateTimeEndAsync();
-    Task<object?> OpenDialogAsync();
+    Task<DateTime?> GetSessionDateTimeStartAsync(DateTime? start, DateTime? end);
+    Task<DateTime?> GetSessionDateTimeEndAsync(DateTime? start, DateTime? end);
+    Task<object?> OpenDialogAsync(DateTime? start, DateTime? end);
 }

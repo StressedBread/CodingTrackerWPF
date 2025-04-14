@@ -26,4 +26,8 @@ public static class QueryStore
             UPDATE CodingSessions
             SET EndDateTime = @EndTime, Duration = @Duration
             WHERE ID = @id";
+
+    public const string DeleteSession = @"
+            DELETE FROM CodingSessions
+            WHERE ID = @id";
 }

@@ -10,9 +10,28 @@ namespace CodingTrackerWPF.ViewModels;
 public partial class DateTimeDialogViewModel : ObservableObject
 {
     [ObservableProperty]
-    private DateTime selectedDate = DateTime.Now;
+    private DateTime selectedDate;
     [ObservableProperty]
-    private DateTime selectedTime = DateTime.Now;
+    private DateTime selectedTime;
+
+    public DateTimeDialogViewModel(DateTime? initalStartDate = null, DateTime? initialEndDate = null)
+    {
+        if (initalStartDate != null)
+        {
+            SelectedDate = initalStartDate.Value;
+            SelectedTime = initalStartDate.Value;
+        }
+        else if (initialEndDate != null)
+        {
+            SelectedDate = initialEndDate.Value;
+            SelectedTime = initialEndDate.Value;
+        }
+        else
+        {
+            SelectedDate = DateTime.Now;
+            SelectedTime = DateTime.Now;
+        }        
+    }
 
     public string Session => DateTimeDialogState.Instance.SessionType;
 

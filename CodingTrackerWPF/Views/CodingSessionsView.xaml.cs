@@ -5,7 +5,10 @@ using CodingTrackerWPF.State;
 using CodingTrackerWPF.ViewModels;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
 
 namespace CodingTrackerWPF.Views;
 
@@ -14,7 +17,6 @@ namespace CodingTrackerWPF.Views;
 /// </summary>
 public partial class CodingSessionsView : UserControl
 {
-    private ObservableCollection<CodingSession>? CodingSessions { get; set; }
     private bool _isUpdating = false;
 
     public CodingSessionsView()
@@ -27,16 +29,40 @@ public partial class CodingSessionsView : UserControl
 
         DataContext = new DateTimeViewModel(codingSessionService, dateTimeDialogService, codingSessionBuilder);
 
-        MainDataGrid.SelectedCellsChanged += MainDataGrid_SelectedCellsChanged;
-
-        //Mockup();
+        MainDataGrid.MouseDoubleClick += MainDataGrid_MouseDoubleClick;
+        MainDataGrid.PreviewMouseLeftButtonDown += MainDataGrid_PreviewMouseLeftButtonDown;
     }
 
-    private async void MainDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    private void MainDataGrid_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid)
+        {
+            var point = e.GetPosition(dataGrid);
+            var hit = dataGrid.InputHitTest(point) as DependencyObject;
+
+            while (hit != null && hit is not DataGridRow)
+            {
+                hit = VisualTreeHelper.GetParent(hit);
+            }
+
+            if (hit is DataGridRow row)
+            {
+                viewModel.SelectedRow = row;
+                viewModel.MainDataGrid = dataGrid;
+            }
+            else
+            {
+                viewModel.SelectedRow = null;
+                viewModel.MainDataGrid = null;
+            }
+        }        
+    }
+
+    private async void MainDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         if (_isUpdating) return;
 
-        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid)
+        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid && dataGrid.CurrentCell.Column is DataGridTextColumn column)
         {
             _isUpdating = true;
 
@@ -45,18 +71,6 @@ public partial class CodingSessionsView : UserControl
 
             _isUpdating = false;
         }
-    }
-
-    private void Mockup()
-    {
-        CodingSessions = new ObservableCollection<CodingSession>
-        {
-            new CodingSession(1, DateTime.Now, DateTime.Now.AddHours(1)),
-            new CodingSession(2, DateTime.Now.AddHours(2), DateTime.Now.AddHours(3)),
-            new CodingSession(3, DateTime.Now.AddHours(4), DateTime.Now.AddHours(5)),
-        };
-
-        MainDataGrid.ItemsSource = CodingSessions;
     }
 
     private async void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
