@@ -25,6 +25,7 @@
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -34,7 +35,16 @@
                             Content="Add Record"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Margin="0,5,0,5"
-                            Command="{Binding OpenCommand}">
+                            Command="{Binding AddCommand}">
+                    </Button>
+
+                    <Button 
+                            Grid.Column="1"
+                            Name="EditRecordButton"
+                            Content="Edit Record"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Margin="0,5,0,5"
+                            Command="">
                     </Button>
                 </Grid>
             </Grid>
@@ -47,7 +57,7 @@
                     CanUserDeleteRows="False"
                     IsReadOnly="True"
                     SelectionMode="Single"
-                    SelectionUnit="FullRow"
+                    SelectionUnit="Cell"
                     Background="{DynamicResource MaterialDesignPaper}"
                     Foreground="{DynamicResource MaterialDesignBody}"
                     GridLinesVisibility="All"
@@ -59,26 +69,26 @@
                     VerticalAlignment="Stretch"
                     HorizontalAlignment="Stretch"
                     Margin="10 0 10 10"
-                    FontSize="16"                      
-                      >
+                    FontSize="16">
 
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="ID" 
-                                    Binding="{Binding Id}" 
-                                    Width="auto"
-                                    />
+                                        Binding="{Binding Id}" 
+                                        Width="auto"
+                                        />
 
                     <DataGridTextColumn Header="Start Date Time" 
-                                    Binding="{Binding StartDateTimeFormatted}" 
-                                    Width="*"/>
+                                        Binding="{Binding StartDateTimeFormatted}" 
+                                        Width="*"
+                                        />
 
                     <DataGridTextColumn Header="End Date Time" 
-                                    Binding="{Binding EndDateTimeFormatted}" 
-                                    Width="*"/>
+                                        Binding="{Binding EndDateTimeFormatted}" 
+                                        Width="*"/>
 
                     <DataGridTextColumn Header="Duration" 
-                                    Binding="{Binding Duration}" 
-                                    Width="auto"/>
+                                        Binding="{Binding Duration}" 
+                                        Width="auto"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

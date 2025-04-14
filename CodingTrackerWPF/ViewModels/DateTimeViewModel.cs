@@ -6,6 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,18 +19,19 @@ internal partial class DateTimeViewModel : ObservableObject
     [ObservableProperty]
     public ObservableCollection<CodingSession> codingSessions = new();
 
-    public ICommand? OpenCommand { get; }
-
-    private DateTime? _combinedStartDateTime = null;
-    private DateTime? _combinedEndDateTime = null;
+    public ICommand? AddCommand { get; }
 
     private readonly ICodingSessionService _codingSessionService;
+    private readonly IDateTimeDialogService _dateTimeDialogService;
+    private readonly ICodingSessionBuilder _codingSessionBuilder;
 
-    public DateTimeViewModel(ICodingSessionService codingSessionService)
+    public DateTimeViewModel(ICodingSessionService codingSessionService, IDateTimeDialogService dateTimeDialogService, ICodingSessionBuilder codingSessionBuilder)
     {
         _codingSessionService = codingSessionService;
+        _dateTimeDialogService = dateTimeDialogService;
+        _codingSessionBuilder = codingSessionBuilder;
 
-        OpenCommand = new AsyncRelayCommand(OpenDialog);
+        AddCommand = new AsyncRelayCommand(AddSessionAsync);
     }
 
     public async Task LoadSessionsAsync()
@@ -41,62 +43,84 @@ internal partial class DateTimeViewModel : ObservableObject
         }
     }
 
-    public async Task<object?> OpenDialogAsync()
-    {        
-        var dialog = new DateTimePickerView();
+    private async Task AddSessionAsync()
+    {
+        var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync();
+        if (startDateTime == null) return;
 
-        var wrapper = new ContentControl
-        {
-            Content = dialog
-        };
+        var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync();
+        if (endDateTime == null) return;
 
-        return await DialogHost.Show(wrapper, "RootDialog");
+        var session = await _codingSessionBuilder.CreateValidatedSessionAsync(startDateTime, endDateTime);
+        if (session == null) return;
+
+        _codingSessionService.AddSession(session);
+        await LoadSessionsAsync();
     }
 
-    private async Task OpenDialog()
+    private async Task UpdateSessionAsync(string id, string? otherColumnValue, string? header)
     {
-        DateTimeDialogState.Instance.SessionType = "Select start of the session";
+        Int32 sessionId = Int32.Parse(id);
+        DateTime otherDateTime = DateTime.Parse(otherColumnValue ?? string.Empty);
+        CodingSession? session;
 
-        var startResult = await OpenDialogAsync();
-        if (startResult is not DateTimeModel startModel) return;
+        switch (header)
+        {
+            case "Start Date Time":
+                var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync();
+                session = await _codingSessionBuilder.CreateValidatedSessionAsync(startDateTime, otherDateTime);
+                
+                if (session == null) return;
 
-        _combinedStartDateTime = startModel.SelectedDate.Date + startModel.SelectedTime.TimeOfDay;
+                session.Id = sessionId;
+                _codingSessionService.UpdateStartTime(session);
+                break;
 
-        DateTimeDialogState.Instance.SessionType = "Select end of the session";
+            case "End Date Time":
+                var endDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync();
+                session = await _codingSessionBuilder.CreateValidatedSessionAsync(otherDateTime, endDateTime);
 
-        await Task.Delay(500);
+                if (session == null) return;
 
-        var endResult = await OpenDialogAsync();
-        if (endResult is not DateTimeModel endModel) return;
+                session.Id = sessionId;
+                _codingSessionService.UpdateEndTime(session);
+                break;
 
-        _combinedEndDateTime = endModel.SelectedDate.Date + endModel.SelectedTime.TimeOfDay;
-
-        await SendCombinedDateTime(_combinedStartDateTime, _combinedEndDateTime);
+            default:
+                break;
+        }
 
         await LoadSessionsAsync();
     }
 
-    private async Task SendCombinedDateTime(DateTime? startDateTime, DateTime? endDateTime)
+    public async Task HandleSelectedCell(DataGridCellInfo selectedCell, DataGrid dataGrid)
     {
-        if (startDateTime == null || endDateTime == null)
+        var item = selectedCell.Item;
+        var column = selectedCell.Column;
+        var columnHeader = column.Header;        
+
+        object? otherDateTimeItem = null;
+        DataGridColumn? otherDateTimeColumn = null;
+        string? otherColumnValue = null;
+
+        var idColumn = dataGrid.Columns[0];
+        string? idCellValue = null;
+
+        if (column == null) return;
+        
+        otherDateTimeColumn = (string)columnHeader == "Start Date Time" ? dataGrid.Columns[2] : dataGrid.Columns[1];
+        otherDateTimeItem = dataGrid.Items[dataGrid.Items.IndexOf(item)];
+
+        if (otherDateTimeColumn?.GetCellContent(otherDateTimeItem) is TextBlock columnTextBlock)
         {
-            return;
-        }
+            otherColumnValue = columnTextBlock.Text;
+        }     
 
-        DateTime startDateTimeActual = startDateTime.Value;
-        DateTime endDateTimeActual = endDateTime.Value;
-        TimeSpan duration = endDateTimeActual - startDateTimeActual;
-
-        if (duration < TimeSpan.Zero)
+        if (idColumn?.GetCellContent(item) is TextBlock idTextBlock)
         {
-            var messageDialogView = new MessageDialogView();
-            messageDialogView.DataContext = new MessageDialogViewModel("Error", "End cannot be earlier than start!");
-            await DialogHost.Show(messageDialogView, "RootDialog");
-            return;
+            idCellValue = idTextBlock.Text;
+
+            await UpdateSessionAsync(idCellValue, otherColumnValue, columnHeader.ToString());
         }
-
-        CodingSession codingSession = new(startDateTimeActual, endDateTimeActual, duration);
-
-        _codingSessionService.AddSession(codingSession);
     }
 }

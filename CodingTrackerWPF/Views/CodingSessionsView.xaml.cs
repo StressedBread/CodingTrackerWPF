@@ -4,6 +4,7 @@ using CodingTrackerWPF.Services;
 using CodingTrackerWPF.State;
 using CodingTrackerWPF.ViewModels;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace CodingTrackerWPF.Views;
@@ -14,16 +15,36 @@ namespace CodingTrackerWPF.Views;
 public partial class CodingSessionsView : UserControl
 {
     private ObservableCollection<CodingSession>? CodingSessions { get; set; }
+    private bool _isUpdating = false;
 
     public CodingSessionsView()
     {
         InitializeComponent();
 
         ICodingSessionService codingSessionService = new CodingSessionService();
+        IDateTimeDialogService dateTimeDialogService = new DateTimeDialogService();
+        ICodingSessionBuilder codingSessionBuilder = new CodingSessionBuilder();
 
-        DataContext = new DateTimeViewModel(codingSessionService);
+        DataContext = new DateTimeViewModel(codingSessionService, dateTimeDialogService, codingSessionBuilder);
+
+        MainDataGrid.SelectedCellsChanged += MainDataGrid_SelectedCellsChanged;
 
         //Mockup();
+    }
+
+    private async void MainDataGrid_SelectedCellsChanged(object sender, SelectedCellsChangedEventArgs e)
+    {
+        if (_isUpdating) return;
+
+        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid)
+        {
+            _isUpdating = true;
+
+            var selectedCell = dataGrid.CurrentCell;
+            await viewModel.HandleSelectedCell(selectedCell, dataGrid);
+
+            _isUpdating = false;
+        }
     }
 
     private void Mockup()
