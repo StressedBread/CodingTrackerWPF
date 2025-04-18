@@ -1,10 +1,6 @@
 ﻿using CodingTrackerWPF.Interfaces;
-using CodingTrackerWPF.Models;
 using CodingTrackerWPF.Services;
-using CodingTrackerWPF.State;
 using CodingTrackerWPF.ViewModels;
-using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -23,7 +19,9 @@ public partial class CodingSessionsView : UserControl
     {
         InitializeComponent();
 
-        ICodingSessionService codingSessionService = new CodingSessionService();
+        var queryService = new QueryService();
+
+        ICodingSessionService codingSessionService = new CodingSessionService(queryService);
         IDateTimeDialogService dateTimeDialogService = new DateTimeDialogService();
         ICodingSessionBuilder codingSessionBuilder = new CodingSessionBuilder();
 

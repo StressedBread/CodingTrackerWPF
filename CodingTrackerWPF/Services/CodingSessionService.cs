@@ -6,11 +6,17 @@ namespace CodingTrackerWPF.Services;
 
 public class CodingSessionService : ICodingSessionService
 {
-    private QueryService _queryService = new();
+    private readonly QueryService _queryService;
     private DynamicParameters _parameters = new();
+
+    public CodingSessionService(QueryService queryService)
+    {
+        _queryService = queryService;
+    }
+
     public void CreateCodingSessionsTable()
     {
-        var query = QueryStore.CreateTable;
+        var query = QueryStore.CreateCodingSessionsTable;
         _queryService.ExecuteQuery(query);
     }
 

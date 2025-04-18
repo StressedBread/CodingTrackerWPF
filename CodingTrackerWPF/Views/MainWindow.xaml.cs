@@ -21,15 +21,22 @@ namespace CodingTrackerWPF.Views;
 /// </summary>
 public partial class MainWindow : Window
 {
+    private readonly MainWindowViewModel _viewModel;
+
     public MainWindow()
     {
         InitializeComponent();
 
-        ICodingSessionService codingSessionService = new CodingSessionService();
-        DataContext = new MainWindowViewModel(codingSessionService);
+        var queryService = new QueryService();
+
+        ICodingSessionService codingSessionService = new CodingSessionService(queryService);
+        IWeeklyGoalService weeklyGoalService = new WeeklyGoalService(queryService);
+        _viewModel = new MainWindowViewModel(codingSessionService, weeklyGoalService);
+        DataContext = _viewModel;
 
         MainContent.Content = new HomeView();
-    }    
+    }
+
     private void OnDrawerItemClick(object sender, RoutedEventArgs e)
     {
         if (sender is Button button)

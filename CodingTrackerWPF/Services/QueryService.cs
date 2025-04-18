@@ -27,4 +27,13 @@ public class QueryService
             return result.ToList();
         }
     }
+
+    public async Task<T?> QueryAsync<T>(string query)
+    {
+        using (IDbConnection connection = new MySqlConnection(_connectionString))
+        {
+            connection.Open();
+            return await connection.QuerySingleOrDefaultAsync<T>(query).ConfigureAwait(false);
+        }
+    }
 }

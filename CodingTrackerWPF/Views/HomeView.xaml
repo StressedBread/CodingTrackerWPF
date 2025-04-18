@@ -8,6 +8,42 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Grid.Row="0"
+                Name="CreateWeeklyGoal"
+                Content="Set Weekly Goal"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Margin="0,5,0,5"
+                HorizontalAlignment="Left"
+                Command="{Binding ShowTextBox}"/>
+
+        <StackPanel Grid.Row="1"
+                    Width="300"
+                    Orientation="Vertical"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center">
+
+            <TextBox Name="WeeklyGoalInput"
+                     Width="300"
+                     MaxWidth="300"
+                     Visibility="{Binding TextBoxVisibility}"
+                     materialDesign:HintAssist.Hint="Enter your weekly goal in hours."
+                     Style="{StaticResource MaterialDesignFilledTextBox}"
+                     PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
+                     TextWrapping="Wrap"
+                     MaxLength="3"/>
+            
+            <Button Name="SubmitWeeklyGoal"
+                    Content="Submit"
+                    Width="100"
+                    HorizontalAlignment="Right"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Margin="0, 20, 0, 0"
+                    Visibility="{Binding TextBoxVisibility}"/>
+        </StackPanel>        
     </Grid>
 </UserControl>

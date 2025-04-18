@@ -1,7 +1,7 @@
-﻿using CodingTrackerWPF.Models;
-using CommunityToolkit.Mvvm.ComponentModel;
-using System.Collections.ObjectModel;
+﻿using CodingTrackerWPF.ViewModels;
+using System.Text.RegularExpressions;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CodingTrackerWPF.Views;
 
@@ -12,6 +12,13 @@ public partial class HomeView : UserControl
 {    
     public HomeView()
     {
-        InitializeComponent();        
+        InitializeComponent();
+
+        DataContext = new HomeViewModel();
+    }
+
+    private void WeeklyGoalInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
     }
 }

@@ -1,16 +1,9 @@
 ﻿using CodingTrackerWPF.Interfaces;
 using CodingTrackerWPF.Models;
-using CodingTrackerWPF.State;
-using CodingTrackerWPF.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MaterialDesignThemes.Wpf;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CodingTrackerWPF.ViewModels;
 
@@ -53,6 +46,8 @@ internal partial class DateTimeViewModel : ObservableObject
     {
         var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync(null, null);
         if (startDateTime == null) return;
+
+        await Task.Delay(500);
 
         var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync(null, null);
         if (endDateTime == null) return;
