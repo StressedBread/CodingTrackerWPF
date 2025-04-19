@@ -1,4 +1,6 @@
-﻿using CodingTrackerWPF.ViewModels;
+﻿using CodingTrackerWPF.Interfaces;
+using CodingTrackerWPF.Services;
+using CodingTrackerWPF.ViewModels;
 using System.Text.RegularExpressions;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,7 +16,11 @@ public partial class HomeView : UserControl
     {
         InitializeComponent();
 
-        DataContext = new HomeViewModel();
+        var queryService = new QueryService();
+
+        IWeeklyGoalService weeklyGoalService = new WeeklyGoalService(queryService);
+
+        DataContext = new HomeViewModel(weeklyGoalService);
     }
 
     private void WeeklyGoalInput_PreviewTextInput(object sender, TextCompositionEventArgs e)

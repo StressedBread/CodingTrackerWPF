@@ -30,6 +30,7 @@
             <TextBox Name="WeeklyGoalInput"
                      Width="300"
                      MaxWidth="300"
+                     Text="{Binding WeeklyGoalText}"
                      Visibility="{Binding TextBoxVisibility}"
                      materialDesign:HintAssist.Hint="Enter your weekly goal in hours."
                      Style="{StaticResource MaterialDesignFilledTextBox}"
@@ -43,7 +44,8 @@
                     HorizontalAlignment="Right"
                     Style="{StaticResource MaterialDesignFlatButton}"
                     Margin="0, 20, 0, 0"
-                    Visibility="{Binding TextBoxVisibility}"/>
+                    Visibility="{Binding TextBoxVisibility}"
+                    Command="{Binding SubmitWeeklyGoalCommand}"/>
         </StackPanel>        
     </Grid>
 </UserControl>

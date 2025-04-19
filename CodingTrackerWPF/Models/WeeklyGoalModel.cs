@@ -7,11 +7,16 @@ public class WeeklyGoalModel
     public TimeSpan LeftTime { get; set; }
     public TimeSpan CodedThisWeek { get; set; }
 
-    public WeeklyGoalModel(Int32 id, TimeSpan goal, TimeSpan leftTime, TimeSpan codedThisWeek)
+    public WeeklyGoalModel(Int32 id) 
     {
         Id = id;
-        Goal = goal;
-        LeftTime = leftTime;
+    }
+
+    public WeeklyGoalModel(Int32 id, TimeSpan goalTime, TimeSpan leftCodingTime, TimeSpan codedThisWeek)
+    {
+        Id = id;
+        Goal = goalTime;
+        LeftTime = leftCodingTime;
         CodedThisWeek = codedThisWeek;
     }
 }

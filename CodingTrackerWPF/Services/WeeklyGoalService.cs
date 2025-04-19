@@ -32,6 +32,40 @@ public class WeeklyGoalService : IWeeklyGoalService
         return await _queryService.QueryAsync<int>(query);
     }
 
+    public async Task<WeeklyGoalModel?> GetWeeklyGoal(Int32 id)
+    {
+        var query = QueryStore.GetWeeklyGoal;
+
+        _parameters.Add("@id", id);
+
+        return await _queryService.QueryAsync<WeeklyGoalModel>(query, _parameters);
+    }
+
+    public DateTime GetFirstDayOfWeek(DateTime currentDay)
+    {
+        var query = QueryStore.GetFirstDayOfWeek;
+
+        _parameters.Add("@currentDay", currentDay);
+
+        return _queryService.Query<DateTime>(query, _parameters);
+    }
+
+    public DateTime GetLastDayOfWeek()
+    {
+        var query = QueryStore.GetLastDayOfWeek;
+        return _queryService.Query<DateTime>(query);
+    }
+
+    public Decimal GetThisWeekDuration(DateTime firstDay, DateTime endDay)
+    {
+        var query = QueryStore.GetThisWeekDuration;
+        
+        _parameters.Add("@startDay", firstDay);
+        _parameters.Add("@endDay", endDay);
+
+        return _queryService.Query<Decimal>(query, _parameters);
+    }
+
     public void SetWeeklyGoal(WeeklyGoalModel weeklyGoal)
     {
         var query = QueryStore.UpdateWeeklyGoal;
