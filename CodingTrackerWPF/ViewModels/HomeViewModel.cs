@@ -17,6 +17,13 @@ public partial class HomeViewModel : ObservableObject
     private bool isTextBoxVisible;
     [ObservableProperty]
     private string weeklyGoalText = String.Empty;
+    [ObservableProperty]
+    private string weeklyGoalStats = "";
+    [ObservableProperty]
+    private int numericUpDownValue = 0;
+
+    private string[] weeklyGoalStatsArray = new string[3];
+    
 
     public HomeViewModel(IWeeklyGoalService weeklyGoalService)
     {
@@ -28,8 +35,6 @@ public partial class HomeViewModel : ObservableObject
 
     private async Task SubmitWeeklyGoalAsync()
     {
-        IsTextBoxVisible = false;
-
         var id = 1;
 
         var weeklyGoal = await _weeklyGoalService.GetWeeklyGoal(id);
@@ -40,11 +45,32 @@ public partial class HomeViewModel : ObservableObject
 
         if (weeklyGoal != null) id = weeklyGoal.Id;
 
-        var goalTime = TimeSpan.FromHours(Double.Parse(WeeklyGoalText));
+        var goalTime = TimeSpan.FromHours((double)NumericUpDownValue);
 
         var timeLeft = goalTime - thisWeekDuration;
+        timeLeft = timeLeft < TimeSpan.Zero ? TimeSpan.Zero : timeLeft;
 
         var weeklyGoalModel = new WeeklyGoalModel(id, goalTime, timeLeft, thisWeekDuration);
+
+        _weeklyGoalService.SetWeeklyGoal(weeklyGoalModel);
+
+        IsTextBoxVisible = false;
+        OnPropertyChanged(nameof(TextBoxVisibility));
+
+        await GetWeeklyGoalStats();
+    }
+
+    private async Task GetWeeklyGoalStats()
+    {
+        int id = 1;
+
+        var weeklyGoal = await _weeklyGoalService.GetWeeklyGoal(id);
+
+        weeklyGoalStatsArray[0] = weeklyGoal?.Goal.ToString() ?? "0";
+        weeklyGoalStatsArray[1] = weeklyGoal?.LeftTime.ToString() ?? "0";
+        weeklyGoalStatsArray[2] = weeklyGoal?.CodedThisWeek.ToString() ?? "0";
+
+        WeeklyGoalStats = $"Weekly Goal: {weeklyGoalStatsArray[0]} Left Time: {weeklyGoalStatsArray[1]} Coded This Week: {weeklyGoalStatsArray[2]}";
     }
 
     public Visibility TextBoxVisibility => IsTextBoxVisible ? Visibility.Visible : Visibility.Collapsed;

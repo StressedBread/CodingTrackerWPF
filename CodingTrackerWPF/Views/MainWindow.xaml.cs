@@ -49,6 +49,9 @@ public partial class MainWindow : Window
                 case "CodingSessionsButton":
                     MainContent.Content = new CodingSessionsView();
                     break;
+                case "LiveCodingSessionButton":
+                    MainContent.Content = new LiveCodingSessionView();
+                    break;
                 default:
                     break;
             }

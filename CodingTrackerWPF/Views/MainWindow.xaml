@@ -73,6 +73,26 @@
                         
                     </Button>
 
+                    <Button Tag="LiveCodingSessionButton"
+                            Click="OnDrawerItemClick"
+                            Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
+                            CommandParameter="{x:Static Dock.Left}"
+                            Style="{StaticResource MaterialDesignFlatButton}"
+                            Height="36"
+                            Margin="0,5,0,0" >
+
+                        <Button.Content>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                <!-- Icon -->
+                                <materialDesign:PackIcon Kind="Timer" Width="18" Height="18" VerticalAlignment="Center" />
+
+                                <!-- Text -->
+                                <TextBlock Text="Live Coding Session" VerticalAlignment="Center" Margin="8,0,0,0" />
+                            </StackPanel>
+                        </Button.Content>
+
+                    </Button>
+
                     <Button Content="Exit"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
@@ -112,6 +132,14 @@
                 <Button Tag="CodingSessionsButton"
                         Click="OnDrawerItemClick"
                         Content="{materialDesign:PackIcon Kind=Table, Size=32}" 
+                        Style="{StaticResource MaterialDesignFlatButton}" 
+                        CommandParameter="{x:Static Dock.Left}" 
+                        Margin="0,5,0,0" 
+                        Height="36"/>
+
+                <Button Tag="LiveCodingSessionButton"
+                        Click="OnDrawerItemClick"
+                        Content="{materialDesign:PackIcon Kind=Timer, Size=32}" 
                         Style="{StaticResource MaterialDesignFlatButton}" 
                         CommandParameter="{x:Static Dock.Left}" 
                         Margin="0,5,0,0" 

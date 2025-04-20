@@ -13,7 +13,13 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="0"
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            
+            <Button Grid.Column="0"
                 Name="CreateWeeklyGoal"
                 Content="Set Weekly Goal"
                 Style="{StaticResource MaterialDesignFlatButton}"
@@ -21,13 +27,36 @@
                 HorizontalAlignment="Left"
                 Command="{Binding ShowTextBox}"/>
 
+            <TextBlock Grid.Column="1"
+                       Name="WeeklyGoalTextBlock"
+                       Text="{Binding WeeklyGoalStats}"
+                       FontSize="16"
+                       HorizontalAlignment="Right"
+                       VerticalAlignment="Center"
+                       Margin="0,5,5,5"
+                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+        </Grid>
+
         <StackPanel Grid.Row="1"
                     Width="300"
                     Orientation="Vertical"
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center">
 
-            <TextBox Name="WeeklyGoalInput"
+            <materialDesign:NumericUpDown Name="WeeklyGoalInputNumeric"
+                                          Width="300"
+                                          MaxWidth="300"
+                                          Visibility="{Binding TextBoxVisibility}"
+                                          materialDesign:HintAssist.Hint="Enter your weekly goal in hours"
+                                          Style="{StaticResource MaterialDesignFilledNumericUpDown}"
+                                          PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
+                                          Maximum="168"
+                                          Minimum="0"
+                                          Value="{Binding NumericUpDownValue, Mode=TwoWay}">
+                
+            </materialDesign:NumericUpDown>
+            
+            <!--<TextBox Name="WeeklyGoalInput"
                      Width="300"
                      MaxWidth="300"
                      Text="{Binding WeeklyGoalText}"
@@ -36,7 +65,7 @@
                      Style="{StaticResource MaterialDesignFilledTextBox}"
                      PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
                      TextWrapping="Wrap"
-                     MaxLength="3"/>
+                     MaxLength="3"/><-->
             
             <Button Name="SubmitWeeklyGoal"
                     Content="Submit"
