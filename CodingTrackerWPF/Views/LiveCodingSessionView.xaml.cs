@@ -1,4 +1,6 @@
-﻿using CodingTrackerWPF.ViewModels;
+﻿using CodingTrackerWPF.Interfaces;
+using CodingTrackerWPF.Services;
+using CodingTrackerWPF.ViewModels;
 using System.Windows.Controls;
 
 namespace CodingTrackerWPF.Views
@@ -12,7 +14,11 @@ namespace CodingTrackerWPF.Views
         {
             InitializeComponent();
 
-            DataContext = new LiveCodingSessionViewModel();
+            var queryService = new QueryService();
+
+            ICodingSessionService codingSessionService = new CodingSessionService(queryService);
+
+            DataContext = new LiveCodingSessionViewModel(codingSessionService);
         }
     }
 }
