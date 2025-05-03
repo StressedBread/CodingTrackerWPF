@@ -7,74 +7,42 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+    <materialDesign:DialogHost Identifier="HomeRootDialog">
+        
+        <materialDesign:DialogHost.DialogContent>
+            <TextBlock Text="Placeholder"
+               Margin="16"/>
+        </materialDesign:DialogHost.DialogContent>
+        
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
             
-            <Button Grid.Column="0"
-                Name="CreateWeeklyGoal"
-                Content="Set Weekly Goal"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Margin="0,5,0,5"
-                HorizontalAlignment="Left"
-                Command="{Binding ShowTextBox}"/>
-
-            <TextBlock Grid.Column="1"
-                       Name="WeeklyGoalTextBlock"
-                       Text="{Binding WeeklyGoalStats}"
-                       FontSize="16"
-                       HorizontalAlignment="Right"
-                       VerticalAlignment="Center"
-                       Margin="0,5,5,5"
-                       Style="{StaticResource MaterialDesignBody1TextBlock}"/>
-        </Grid>
-
-        <StackPanel Grid.Row="1"
-                    Width="300"
-                    Orientation="Vertical"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
-
-            <materialDesign:NumericUpDown Name="WeeklyGoalInputNumeric"
-                                          Width="300"
-                                          MaxWidth="300"
-                                          Visibility="{Binding TextBoxVisibility}"
-                                          materialDesign:HintAssist.Hint="Enter your weekly goal in hours"
-                                          Style="{StaticResource MaterialDesignFilledNumericUpDown}"
-                                          PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
-                                          Maximum="168"
-                                          Minimum="0"
-                                          Value="{Binding NumericUpDownValue, Mode=TwoWay}">
-                
-            </materialDesign:NumericUpDown>
-            
-            <!--<TextBox Name="WeeklyGoalInput"
-                     Width="300"
-                     MaxWidth="300"
-                     Text="{Binding WeeklyGoalText}"
-                     Visibility="{Binding TextBoxVisibility}"
-                     materialDesign:HintAssist.Hint="Enter your weekly goal in hours."
-                     Style="{StaticResource MaterialDesignFilledTextBox}"
-                     PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
-                     TextWrapping="Wrap"
-                     MaxLength="3"/><-->
-            
-            <Button Name="SubmitWeeklyGoal"
-                    Content="Submit"
-                    Width="100"
-                    HorizontalAlignment="Right"
+                <Button Grid.Column="0"
+                    Name="CreateWeeklyGoal"
+                    Content="Set Weekly Goal"
                     Style="{StaticResource MaterialDesignFlatButton}"
-                    Margin="0, 20, 0, 0"
-                    Visibility="{Binding TextBoxVisibility}"
-                    Command="{Binding SubmitWeeklyGoalCommand}"/>
-        </StackPanel>        
-    </Grid>
+                    Margin="0,5,0,5"
+                    HorizontalAlignment="Left"
+                    Command="{Binding ShowTextBox}"/>
+
+                <TextBlock Grid.Column="1"
+                           Name="WeeklyGoalTextBlock"
+                           Text="{Binding WeeklyGoalStats}"
+                           FontSize="16"
+                           HorizontalAlignment="Right"
+                           VerticalAlignment="Center"
+                           Margin="0,5,5,5"
+                           Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+            </Grid>
+        </Grid>
+    </materialDesign:DialogHost>
 </UserControl>

@@ -4,15 +4,10 @@ using Dapper;
 
 namespace CodingTrackerWPF.Services;
 
-public class CodingSessionService : ICodingSessionService
+public class CodingSessionService(QueryService queryService) : ICodingSessionService
 {
-    private readonly QueryService _queryService;
-    private DynamicParameters _parameters = new();
-
-    public CodingSessionService(QueryService queryService)
-    {
-        _queryService = queryService;
-    }
+    private readonly QueryService _queryService = queryService;
+    private readonly DynamicParameters _parameters = new();
 
     public void CreateCodingSessionsTable()
     {

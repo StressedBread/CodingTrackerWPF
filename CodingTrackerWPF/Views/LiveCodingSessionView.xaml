@@ -7,42 +7,74 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Grid.Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+        <Label Grid.Row="0"
+               Content="Live Coding Session"
+               FontSize="48"
+               FontFamily="{StaticResource MaterialDesignFont}"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Top"
+               Padding="10"
+               Style="{StaticResource MaterialDesignLabel}"/>
+
+        <Border Grid.Row="1"
+            Background="{DynamicResource MaterialDesignPaper}"
+            BorderBrush="Transparent"
+            BorderThickness="2"
+            CornerRadius="12">
             
-            <Button Grid.Column="0"
-                Name="StartSessionButton"
-                Content="Start Live Coding Session"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Margin="0,5,0,5"
-                HorizontalAlignment="Left"
-                Command="{Binding StartSessionCommand}"/>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-            <Button Grid.Column="1"
-                Name="StopSessionButton"
-                Content="Stop Live Coding Session"
-                Style="{StaticResource MaterialDesignFlatButton}"
-                Margin="0,5,0,5"
-                HorizontalAlignment="Left"
-                Command="{Binding StopSessionCommand}"/>
-        </Grid>
+                <TextBlock  Grid.Row="0"
+                            Name="SessionTimerTextBlock"
+                            Text="{Binding SessionTimer}"
+                            Margin="0,100,0,0"
+                            FontSize="130"
+                            FontFamily="{StaticResource MaterialDesignFont}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Style="{StaticResource MaterialDesignTitleLargeTextBlock}"
+                            materialDesign:ElevationAssist.Elevation="Dp24"/>
 
-        <TextBlock Grid.Row="1"
-                   Name="SessionTimerTextBlock"
-                   Text="{Binding SessionTimer}"
-                   FontSize="16"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   Margin="0,5,5,5"
-                   Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0"
+                        Height="75"
+                        Width="300"
+                        Name="StartSessionButton"
+                        Content="START"
+                        FontSize="50"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding StartSessionCommand}"/>
+
+                    <Button Grid.Column="1"
+                        Height="75"
+                        Width="300"
+                        Name="StopSessionButton"
+                        Content="STOP"
+                        FontSize="50"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Stretch"
+                        Command="{Binding StopSessionCommand}"/>
+                </Grid>
+            </Grid>
+        </Border>
     </Grid>
 </UserControl>

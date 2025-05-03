@@ -9,10 +9,7 @@ public partial class DateTimeDialogState : ObservableObject
     {
         get
         {
-            if (_instance == null)
-            {
-                _instance = new DateTimeDialogState();
-            }
+            _instance ??= new DateTimeDialogState();
             return _instance;
         }
     }

@@ -10,7 +10,7 @@ namespace CodingTrackerWPF.ViewModels;
 internal partial class DateTimeViewModel : ObservableObject
 {
     [ObservableProperty]
-    public ObservableCollection<CodingSession> codingSessions = new();
+    public ObservableCollection<CodingSession> codingSessions = [];
     [ObservableProperty]
     public DataGrid? mainDataGrid;
     [ObservableProperty]
@@ -99,7 +99,6 @@ internal partial class DateTimeViewModel : ObservableObject
         if (MainDataGrid == null || SelectedRow == null) return;
 
         var item = SelectedRow.Item;
-        Int32 cellValue;
         int columnIndex = 0;
 
         if (columnIndex < MainDataGrid.Columns.Count)
@@ -108,7 +107,7 @@ internal partial class DateTimeViewModel : ObservableObject
             var cellContent = column.GetCellContent(item);
             if (cellContent is TextBlock textBlock)
             {
-                if (Int32.TryParse(textBlock.Text, out cellValue))
+                if (Int32.TryParse(textBlock.Text, out Int32 cellValue))
                 {
                     _codingSessionService.DeleteSession(cellValue);
                     await LoadSessionsAsync();
@@ -124,12 +123,12 @@ internal partial class DateTimeViewModel : ObservableObject
         var columnHeader = column.Header;       
         string? currentColumnValue = null;
 
-        object? otherDateTimeItem = null;
-        DataGridColumn? otherDateTimeColumn = null;
+        object? otherDateTimeItem;
+        DataGridColumn? otherDateTimeColumn;
         string? otherColumnValue = null;
 
         var idColumn = dataGrid.Columns[0];
-        string? idCellValue = null;
+        string? idCellValue;
 
         if (column == null) return;
         

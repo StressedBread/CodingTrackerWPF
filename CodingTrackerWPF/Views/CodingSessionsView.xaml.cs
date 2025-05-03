@@ -59,8 +59,7 @@ public partial class CodingSessionsView : UserControl
     private async void MainDataGrid_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         if (_isUpdating) return;
-
-        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid && dataGrid.CurrentCell.Column is DataGridTextColumn column)
+        if (DataContext is DateTimeViewModel viewModel && sender is DataGrid dataGrid && dataGrid.CurrentCell.Column is DataGridTextColumn)
         {
             _isUpdating = true;
 

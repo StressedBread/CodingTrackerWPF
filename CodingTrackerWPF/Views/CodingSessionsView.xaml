@@ -24,8 +24,7 @@
                   Margin="10 0 10 10">
                 <Grid>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
@@ -33,6 +32,10 @@
                             Grid.Column="0"
                             Name="AddRecordButton"
                             Content="Add Record"
+                            FontSize="32"
+                            Height="auto"
+                            VerticalAlignment="Center"
+                            Width="250"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Margin="0,5,0,5"
                             Command="{Binding AddCommand}">
@@ -42,6 +45,10 @@
                             Grid.Column="1"
                             Name="DeleteRecordButton"
                             Content="Delete Record"
+                            FontSize="32"
+                            Height="auto"
+                            VerticalAlignment="Center"
+                            Width="250"
                             Style="{StaticResource MaterialDesignFlatButton}"
                             Margin="0,5,0,5"
                             Command="{Binding DeleteCommand}">

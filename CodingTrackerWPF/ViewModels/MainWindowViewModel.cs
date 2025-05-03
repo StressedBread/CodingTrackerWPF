@@ -5,8 +5,8 @@ namespace CodingTrackerWPF.ViewModels;
 
 public class MainWindowViewModel
 {
-    private ICodingSessionService _codingSessionService;
-    private IWeeklyGoalService _weeklyGoalService;
+    private readonly ICodingSessionService _codingSessionService;
+    private readonly IWeeklyGoalService _weeklyGoalService;
 
     public MainWindowViewModel(ICodingSessionService codingSessionService, IWeeklyGoalService weeklyGoalService)
     {
@@ -28,8 +28,10 @@ public class MainWindowViewModel
 
         else
         {
-            var messageDialogView = new MessageDialogView();
-            messageDialogView.DataContext = new MessageDialogViewModel("Error", "Weekly Goal table cannot have more than 1 row!");
+            _ = new MessageDialogView
+            {
+                DataContext = new MessageDialogViewModel("Error", "Weekly Goal table cannot have more than 1 row!")
+            };
         }
     }
 }

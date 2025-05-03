@@ -19,8 +19,10 @@ public class CodingSessionBuilder : ICodingSessionBuilder
 
         if (duration < TimeSpan.Zero)
         {
-            var messageDialogView = new MessageDialogView();
-            messageDialogView.DataContext = new MessageDialogViewModel("Error", "End cannot be earlier than start!");
+            var messageDialogView = new MessageDialogView
+            {
+                DataContext = new MessageDialogViewModel("Error", "End cannot be earlier than start!")
+            };
             await DialogHost.Show(messageDialogView, "RootDialog");
             return null;
         }

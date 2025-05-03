@@ -3,16 +3,14 @@ using CodingTrackerWPF.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using System.Diagnostics;
-using System.Timers;
-using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
+using System.Timers;
 
 namespace CodingTrackerWPF.ViewModels;
 
 public partial class LiveCodingSessionViewModel : ObservableObject
 {
-    private ICodingSessionService _codingSessionService;
+    private readonly ICodingSessionService _codingSessionService;
 
     [ObservableProperty]
     private string sessionTimer = "00:00:00";
@@ -21,12 +19,14 @@ public partial class LiveCodingSessionViewModel : ObservableObject
     public IRelayCommand? StopSessionCommand { get; }
 
     private TimeSpan _timeElapsed = TimeSpan.Zero;
-    private Stopwatch _stopWatch = new();
+    private readonly Stopwatch _stopWatch = new();
 
     private DateTime _startTime;
     private DateTime _endTime;
 
-    private DispatcherTimer _dispatcherTimer = new();
+    private readonly DispatcherTimer _dispatcherTimer = new();
+
+    private readonly System.Timers.Timer _timer = new();
 
     public LiveCodingSessionViewModel(ICodingSessionService codingSessionService)
     {
@@ -35,19 +35,26 @@ public partial class LiveCodingSessionViewModel : ObservableObject
         StartSessionCommand = new RelayCommand(StartSession);
         StopSessionCommand = new RelayCommand(StopSession);
 
-        _dispatcherTimer.Tick += DispatcherTimer_Tick;
+        //_dispatcherTimer.Tick += DispatcherTimer_Tick;
+        _dispatcherTimer.Interval = TimeSpan.FromMilliseconds(100);
+
+        _timer.Elapsed += Timer_Elapsed;
+        _timer.Interval = 100;
+        _timer.AutoReset = true;
     }
+
+    
 
     private void StartSession()
     {
         if (!_stopWatch.IsRunning)
         {
             _stopWatch.Start();
-
-            _dispatcherTimer.Interval = TimeSpan.FromSeconds(1);
-            _dispatcherTimer.Start();
+            
+            _timer.Start();
 
             _startTime = DateTime.Now;
+            _timeElapsed = _stopWatch.Elapsed;
         }
     }
 
@@ -56,7 +63,7 @@ public partial class LiveCodingSessionViewModel : ObservableObject
         if (_stopWatch.IsRunning)
         {
             _stopWatch.Stop();
-            _dispatcherTimer.Stop();
+            _timer.Stop();
 
             _timeElapsed = _stopWatch.Elapsed;
             _endTime = DateTime.Now;
@@ -76,5 +83,22 @@ public partial class LiveCodingSessionViewModel : ObservableObject
     {
         _timeElapsed = _stopWatch.Elapsed;
         SessionTimer = _timeElapsed.ToString(@"hh\:mm\:ss");
+    }
+
+    private int _lastDisplayedSeconds = -1;
+
+    private void Timer_Elapsed(object? sender, ElapsedEventArgs e)
+    {
+        var elapsed = _stopWatch.Elapsed;
+
+        if (elapsed.Seconds != _lastDisplayedSeconds)
+        {
+            App.Current.Dispatcher.Invoke(() =>
+            {
+                SessionTimer = elapsed.ToString(@"hh\:mm\:ss");
+            });
+
+            _lastDisplayedSeconds = elapsed.Seconds;
+        }
     }
 }

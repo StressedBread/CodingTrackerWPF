@@ -19,12 +19,9 @@ public partial class HomeView : UserControl
         var queryService = new QueryService();
 
         IWeeklyGoalService weeklyGoalService = new WeeklyGoalService(queryService);
+        IWeeklyGoalDialogService weeklyGoalDialogService = new WeeklyGoalDialogService();
+        IWeeklyGoalBuilder weeklyGoalBuilder = new WeeklyGoalBuilder();
 
-        DataContext = new HomeViewModel(weeklyGoalService);
-    }
-
-    private void WeeklyGoalInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
-    {
-        e.Handled = !Regex.IsMatch(e.Text, "^[0-9]+$");
+        DataContext = new HomeViewModel(weeklyGoalService, weeklyGoalDialogService, weeklyGoalBuilder);
     }
 }

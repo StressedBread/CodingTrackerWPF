@@ -1,7 +1,9 @@
 ﻿using CodingTrackerWPF.Interfaces;
 using CodingTrackerWPF.Models;
+using CodingTrackerWPF.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MaterialDesignThemes.Wpf;
 using System.Windows;
 
 namespace CodingTrackerWPF.ViewModels;
@@ -9,9 +11,10 @@ namespace CodingTrackerWPF.ViewModels;
 public partial class HomeViewModel : ObservableObject
 {
     public IRelayCommand? ShowTextBox { get; }
-    public IAsyncRelayCommand? SubmitWeeklyGoalCommand { get; }
 
-    private IWeeklyGoalService _weeklyGoalService;
+    private readonly IWeeklyGoalService _weeklyGoalService;
+    private readonly IWeeklyGoalDialogService _weeklyGoalDialogService;
+    private readonly IWeeklyGoalBuilder _weeklyGoalBuilder;
 
     [ObservableProperty]
     private bool isTextBoxVisible;
@@ -22,42 +25,16 @@ public partial class HomeViewModel : ObservableObject
     [ObservableProperty]
     private int numericUpDownValue = 0;
 
-    private string[] weeklyGoalStatsArray = new string[3];
+    private readonly string[] weeklyGoalStatsArray = new string[3];
     
 
-    public HomeViewModel(IWeeklyGoalService weeklyGoalService)
+    public HomeViewModel(IWeeklyGoalService weeklyGoalService, IWeeklyGoalDialogService weeklyGoalDialogService, IWeeklyGoalBuilder weeklyGoalBuilder)
     {
         _weeklyGoalService = weeklyGoalService;
+        _weeklyGoalDialogService = weeklyGoalDialogService;
+        _weeklyGoalBuilder = weeklyGoalBuilder;
 
-        ShowTextBox = new RelayCommand(SetWeeklyGoal);
-        SubmitWeeklyGoalCommand = new AsyncRelayCommand(SubmitWeeklyGoalAsync);
-    }
-
-    private async Task SubmitWeeklyGoalAsync()
-    {
-        var id = 1;
-
-        var weeklyGoal = await _weeklyGoalService.GetWeeklyGoal(id);
-        var firstDayOfWeek = _weeklyGoalService.GetFirstDayOfWeek(DateTime.Now);
-        var thisWeekDurationInDecimal = _weeklyGoalService.GetThisWeekDuration(firstDayOfWeek, DateTime.Now);
-
-        TimeSpan thisWeekDuration = TimeSpan.FromSeconds((double)thisWeekDurationInDecimal);
-
-        if (weeklyGoal != null) id = weeklyGoal.Id;
-
-        var goalTime = TimeSpan.FromHours((double)NumericUpDownValue);
-
-        var timeLeft = goalTime - thisWeekDuration;
-        timeLeft = timeLeft < TimeSpan.Zero ? TimeSpan.Zero : timeLeft;
-
-        var weeklyGoalModel = new WeeklyGoalModel(id, goalTime, timeLeft, thisWeekDuration);
-
-        _weeklyGoalService.SetWeeklyGoal(weeklyGoalModel);
-
-        IsTextBoxVisible = false;
-        OnPropertyChanged(nameof(TextBoxVisibility));
-
-        await GetWeeklyGoalStats();
+        ShowTextBox = new AsyncRelayCommand(SetWeeklyGoal);
     }
 
     private async Task GetWeeklyGoalStats()
@@ -73,12 +50,21 @@ public partial class HomeViewModel : ObservableObject
         WeeklyGoalStats = $"Weekly Goal: {weeklyGoalStatsArray[0]} Left Time: {weeklyGoalStatsArray[1]} Coded This Week: {weeklyGoalStatsArray[2]}";
     }
 
-    public Visibility TextBoxVisibility => IsTextBoxVisible ? Visibility.Visible : Visibility.Collapsed;
-
-    public void SetWeeklyGoal()
+    public async Task SetWeeklyGoal()
     {
-        IsTextBoxVisible = true;
+        var id = 1;
 
-        OnPropertyChanged(nameof(TextBoxVisibility));
+        var weeklyGoal = await _weeklyGoalService.GetWeeklyGoal(id);
+        var firstDayOfWeek = _weeklyGoalService.GetFirstDayOfWeek(DateTime.Now);
+        var thisWeekDurationInDecimal = _weeklyGoalService.GetThisWeekDuration(firstDayOfWeek, DateTime.Now);
+
+        var newWeeklyGoal = await _weeklyGoalDialogService.GetWeeklyGoal();
+
+        var weeklyGoalModel = await _weeklyGoalBuilder.CreateValidatedWeeklyGoalAsync(id, weeklyGoal, firstDayOfWeek, thisWeekDurationInDecimal, newWeeklyGoal);
+
+        if (weeklyGoalModel == null) return;
+
+        _weeklyGoalService.SetWeeklyGoal(weeklyGoalModel);
+        await GetWeeklyGoalStats();
     }
 }

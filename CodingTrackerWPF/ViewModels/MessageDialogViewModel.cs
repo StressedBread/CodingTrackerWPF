@@ -1,14 +1,8 @@
 ﻿namespace CodingTrackerWPF.ViewModels;
 
-public class MessageDialogViewModel
+public class MessageDialogViewModel(string title, string message, string okButtonText = "OK")
 {
-    public string Title { get; set; }
-    public string Message { get; set; }
-    public string OkButtonText { get; set; }
-    public MessageDialogViewModel(string title, string message, string okButtonText = "OK")
-    {
-        Title = title;
-        Message = message;
-        OkButtonText = okButtonText;
-    }
+    public string Title { get; set; } = title;
+    public string Message { get; set; } = message;
+    public string OkButtonText { get; set; } = okButtonText;
 }

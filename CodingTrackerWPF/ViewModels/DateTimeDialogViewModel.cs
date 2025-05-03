@@ -33,7 +33,7 @@ public partial class DateTimeDialogViewModel : ObservableObject
         }        
     }
 
-    public string Session => DateTimeDialogState.Instance.SessionType;
+    public static string Session => DateTimeDialogState.Instance.SessionType;
 
     public ICommand SubmitCommand => new RelayCommand(() =>
     {

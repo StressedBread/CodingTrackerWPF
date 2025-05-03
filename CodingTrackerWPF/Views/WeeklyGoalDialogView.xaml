@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="CodingTrackerWPF.Views.WeeklyGoalDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodingTrackerWPF.Views" xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <StackPanel
+            Orientation="Vertical"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+
+            <materialDesign:NumericUpDown Name="WeeklyGoalInputNumeric"
+                                          Width="auto"
+                                          Height="auto"
+                                          materialDesign:HintAssist.Hint="Enter your weekly goal in hours"
+                                          Style="{StaticResource MaterialDesignFilledNumericUpDown}"
+                                          PreviewTextInput="WeeklyGoalInput_PreviewTextInput"
+                                          Maximum="168"
+                                          Minimum="0"
+                                          Value="{Binding WeeklyGoalValue, Mode=TwoWay}">
+
+            </materialDesign:NumericUpDown>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button Grid.Column="1"
+                        Name="SubmitWeeklyGoal"
+                        Content="Submit"
+                        Width="100"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="5"
+                        Command="{Binding SubmitCommand}"/>
+
+                <Button Grid.Column="0"
+                        Name="CancelWeeklyGoal"
+                        Content="Cancel"
+                        Width="100"
+                        HorizontalAlignment="Center"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Margin="5"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</UserControl>

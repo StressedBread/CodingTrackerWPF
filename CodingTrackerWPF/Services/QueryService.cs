@@ -7,42 +7,34 @@ namespace CodingTrackerWPF.Services;
 
 public class QueryService
 {
-    private string? _connectionString = App.ConfigurationJson?["ConnectionStrings:DefaultConnection"];
+    private readonly string? _connectionString = App.ConfigurationJson?["ConnectionStrings:DefaultConnection"];
 
     public void ExecuteQuery(string query, object? parameters = null)
     {
-        using (IDbConnection connection = new MySqlConnection(_connectionString))
-        {
-            connection.Open();
-            connection.Execute(query, parameters);
-        }
+        using MySqlConnection connection = new(_connectionString);
+        connection.Open();
+        connection.Execute(query, parameters);
     }
 
     public async Task<List<CodingSession>> ReaderAsync(string query)
     {
-        using (IDbConnection connection = new MySqlConnection(_connectionString))
-        {
-            connection.Open();
-            var result = await connection.QueryAsync<CodingSession>(query).ConfigureAwait(false);
-            return result.ToList();
-        }
+        using MySqlConnection connection = new(_connectionString);
+        connection.Open();
+        var result = await connection.QueryAsync<CodingSession>(query).ConfigureAwait(false);
+        return result.ToList();
     }
 
     public async Task<T?> QueryAsync<T>(string query, object? parameters = null)
     {
-        using (IDbConnection connection = new MySqlConnection(_connectionString))
-        {
-            connection.Open();
-            return await connection.QuerySingleOrDefaultAsync<T>(query, parameters).ConfigureAwait(false);
-        }
+        using MySqlConnection connection = new(_connectionString);
+        connection.Open();
+        return await connection.QuerySingleOrDefaultAsync<T>(query, parameters).ConfigureAwait(false);
     }
 
     public T? Query<T>(string query, object? parameters = null)
     {
-        using (IDbConnection connection = new MySqlConnection(_connectionString))
-        {
-            connection.Open();
-            return connection.QuerySingleOrDefault<T>(query, parameters);
-        }
+        using MySqlConnection connection = new(_connectionString);
+        connection.Open();
+        return connection.QuerySingleOrDefault<T>(query, parameters);
     }
 }

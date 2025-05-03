@@ -4,15 +4,10 @@ using Dapper;
 
 namespace CodingTrackerWPF.Services;
 
-public class WeeklyGoalService : IWeeklyGoalService
+public class WeeklyGoalService(QueryService queryService) : IWeeklyGoalService
 {
-    private QueryService _queryService;
-    private DynamicParameters _parameters = new();
-
-    public WeeklyGoalService(QueryService queryService)
-    {
-        _queryService = queryService;
-    }
+    private readonly QueryService _queryService = queryService;
+    private readonly DynamicParameters _parameters = new();
 
     public void CreateWeeklyGoalTable()
     {

@@ -93,7 +93,9 @@
 
                     </Button>
 
-                    <Button Content="Exit"
+                    <Button Tag="ExitButton"
+                            Content="Exit"
+                            Click="OnDrawerItemClick"
                             Command="{x:Static materialDesign:DrawerHost.CloseDrawerCommand}"
                             CommandParameter="{x:Static Dock.Left}"
                             Style="{StaticResource MaterialDesignFlatButton}"

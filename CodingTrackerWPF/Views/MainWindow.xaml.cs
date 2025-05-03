@@ -1,18 +1,8 @@
-﻿using MaterialDesignThemes.Wpf;
-using MaterialDesignColors.ColorManipulation;
-using System.Text;
+﻿using CodingTrackerWPF.Interfaces;
+using CodingTrackerWPF.Services;
+using CodingTrackerWPF.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using CodingTrackerWPF.ViewModels;
-using CodingTrackerWPF.Interfaces;
-using CodingTrackerWPF.Services;
 
 namespace CodingTrackerWPF.Views;
 
@@ -51,6 +41,9 @@ public partial class MainWindow : Window
                     break;
                 case "LiveCodingSessionButton":
                     MainContent.Content = new LiveCodingSessionView();
+                    break;
+                case "ExitButton":
+                    Application.Current.Shutdown();
                     break;
                 default:
                     break;
