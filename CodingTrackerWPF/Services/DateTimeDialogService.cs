@@ -10,11 +10,11 @@ namespace CodingTrackerWPF.Services;
 
 public class DateTimeDialogService : IDateTimeDialogService
 {
-    public async Task<DateTime?> GetSessionDateTimeStartAsync(DateTime? start, DateTime? end)
+    public async Task<DateTime?> GetSessionDateTimeStartAsync(string dialogID, DateTime? start, DateTime? end)
     {
         DateTimeDialogState.Instance.SessionType = "Select start of the session";
 
-        var startResult = await OpenDialogAsync(start, end);
+        var startResult = await OpenDialogAsync(dialogID, start, end);
         if (startResult is not DateTimeModel startModel) return null;
 
         var startDateTime = startModel.SelectedDate.Date + startModel.SelectedTime.TimeOfDay;
@@ -22,11 +22,11 @@ public class DateTimeDialogService : IDateTimeDialogService
         return startDateTime;
     }
 
-    public async Task<DateTime?> GetSessionDateTimeEndAsync(DateTime? start, DateTime? end)
+    public async Task<DateTime?> GetSessionDateTimeEndAsync(string dialogID, DateTime? start, DateTime? end)
     {
         DateTimeDialogState.Instance.SessionType = "Select end of the session";
 
-        var endResult = await OpenDialogAsync(start, end);
+        var endResult = await OpenDialogAsync(dialogID, start, end);
         if (endResult is not DateTimeModel endModel) return null;
 
         var endDateTime = endModel.SelectedDate.Date + endModel.SelectedTime.TimeOfDay;
@@ -34,9 +34,9 @@ public class DateTimeDialogService : IDateTimeDialogService
         return endDateTime;
     }
 
-    public async Task<object?> OpenDialogAsync(DateTime? start, DateTime? end)
+    public async Task<object?> OpenDialogAsync(string dialogID, DateTime? start, DateTime? end)
     {
-        var viewModel = new DateTimeDialogViewModel(start, end);
+        var viewModel = new DateTimeDialogViewModel(dialogID, start, end);
 
         var dialog = new DateTimePickerView()
         {
@@ -45,6 +45,6 @@ public class DateTimeDialogService : IDateTimeDialogService
 
         var wrapper = new ContentControl { Content = dialog };
 
-        return await DialogHost.Show(wrapper, "RootDialog");
+        return await DialogHost.Show(wrapper, dialogID);
     }
 }

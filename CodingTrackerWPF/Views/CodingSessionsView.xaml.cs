@@ -24,8 +24,9 @@ public partial class CodingSessionsView : UserControl
         ICodingSessionService codingSessionService = new CodingSessionService(queryService);
         IDateTimeDialogService dateTimeDialogService = new DateTimeDialogService();
         ICodingSessionBuilder codingSessionBuilder = new CodingSessionBuilder();
+        IFiltersDialogService filtersDialogService = new FiltersDialogService();
 
-        DataContext = new DateTimeViewModel(codingSessionService, dateTimeDialogService, codingSessionBuilder);
+        DataContext = new DateTimeViewModel(codingSessionService, dateTimeDialogService, codingSessionBuilder, filtersDialogService);
 
         MainDataGrid.MouseDoubleClick += MainDataGrid_MouseDoubleClick;
         MainDataGrid.PreviewMouseLeftButtonDown += MainDataGrid_PreviewMouseLeftButtonDown;

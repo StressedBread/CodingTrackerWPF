@@ -14,7 +14,9 @@ public partial class DateTimeDialogViewModel : ObservableObject
     [ObservableProperty]
     private DateTime selectedTime;
 
-    public DateTimeDialogViewModel(DateTime? initalStartDate = null, DateTime? initialEndDate = null)
+    private readonly string _dialogID;
+
+    public DateTimeDialogViewModel(string dialogID, DateTime? initalStartDate = null, DateTime? initialEndDate = null)
     {
         if (initalStartDate != null)
         {
@@ -30,14 +32,16 @@ public partial class DateTimeDialogViewModel : ObservableObject
         {
             SelectedDate = DateTime.Now;
             SelectedTime = DateTime.Now;
-        }        
+        }
+
+        _dialogID = dialogID;
     }
 
     public static string Session => DateTimeDialogState.Instance.SessionType;
 
     public ICommand SubmitCommand => new RelayCommand(() =>
     {
-        DialogHost.Close("RootDialog", new DateTimeModel
+        DialogHost.Close(_dialogID, new DateTimeModel
         {
             SelectedDate = SelectedDate,
             SelectedTime = SelectedTime

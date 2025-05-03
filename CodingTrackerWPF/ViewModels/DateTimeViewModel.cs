@@ -1,7 +1,9 @@
 ﻿using CodingTrackerWPF.Interfaces;
 using CodingTrackerWPF.Models;
+using CodingTrackerWPF.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MySqlX.XDevAPI;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
@@ -9,6 +11,8 @@ namespace CodingTrackerWPF.ViewModels;
 
 internal partial class DateTimeViewModel : ObservableObject
 {
+    private FilteringService _filteringService = new();
+
     [ObservableProperty]
     public ObservableCollection<CodingSession> codingSessions = [];
     [ObservableProperty]
@@ -18,19 +22,28 @@ internal partial class DateTimeViewModel : ObservableObject
 
     public IAsyncRelayCommand? AddCommand { get; }
     public IAsyncRelayCommand? DeleteCommand { get; }
+    public IAsyncRelayCommand? FiltersCommand { get; }
+    public IAsyncRelayCommand? ResetFiltersCommand { get; }
 
     private readonly ICodingSessionService _codingSessionService;
     private readonly IDateTimeDialogService _dateTimeDialogService;
     private readonly ICodingSessionBuilder _codingSessionBuilder;
+    private readonly IFiltersDialogService _filtersDialogService;
 
-    public DateTimeViewModel(ICodingSessionService codingSessionService, IDateTimeDialogService dateTimeDialogService, ICodingSessionBuilder codingSessionBuilder)
+    private readonly string _rootDialogID = "RootDialog";
+
+    public DateTimeViewModel(ICodingSessionService codingSessionService, IDateTimeDialogService dateTimeDialogService, 
+        ICodingSessionBuilder codingSessionBuilder, IFiltersDialogService filtersDialogService)
     {
         _codingSessionService = codingSessionService;
         _dateTimeDialogService = dateTimeDialogService;
         _codingSessionBuilder = codingSessionBuilder;
+        _filtersDialogService = filtersDialogService;
 
         AddCommand = new AsyncRelayCommand(AddSessionAsync);
         DeleteCommand = new AsyncRelayCommand(DeleteSessionAsync, CanDeleteSession);
+        FiltersCommand = new AsyncRelayCommand(FiltersDialogAsync);
+        ResetFiltersCommand = new AsyncRelayCommand(LoadSessionsAsync);
     }
 
     public async Task LoadSessionsAsync()
@@ -44,12 +57,12 @@ internal partial class DateTimeViewModel : ObservableObject
 
     private async Task AddSessionAsync()
     {
-        var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync(null, null);
+        var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync(_rootDialogID, null, null);
         if (startDateTime == null) return;
 
         await Task.Delay(500);
 
-        var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync(null, null);
+        var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync(_rootDialogID, null, null);
         if (endDateTime == null) return;
 
         var session = await _codingSessionBuilder.CreateValidatedSessionAsync(startDateTime, endDateTime);
@@ -69,7 +82,7 @@ internal partial class DateTimeViewModel : ObservableObject
         switch (header)
         {
             case "Start Date Time":
-                var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync(currentDateTime, null);
+                var startDateTime = await _dateTimeDialogService.GetSessionDateTimeStartAsync(_rootDialogID, currentDateTime, null);
                 session = await _codingSessionBuilder.CreateValidatedSessionAsync(startDateTime, otherDateTime);
                 
                 if (session == null) return;
@@ -79,7 +92,7 @@ internal partial class DateTimeViewModel : ObservableObject
                 break;
 
             case "End Date Time":
-                var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync(null, currentDateTime);
+                var endDateTime = await _dateTimeDialogService.GetSessionDateTimeEndAsync(_rootDialogID, null, currentDateTime);
                 session = await _codingSessionBuilder.CreateValidatedSessionAsync(otherDateTime, endDateTime);
 
                 if (session == null) return;
@@ -113,6 +126,18 @@ internal partial class DateTimeViewModel : ObservableObject
                     await LoadSessionsAsync();
                 }
             }
+        }
+    }
+
+    private async Task FiltersDialogAsync()
+    {
+        var filters = await _filtersDialogService.GetFiltersAsync();
+        if (filters == null) return;
+
+        var filteredSessions = _filteringService.Filtering(CodingSessions, filters);
+        if (filteredSessions != null)
+        {
+            CodingSessions = new ObservableCollection<CodingSession>(filteredSessions);
         }
     }
 

@@ -1,0 +1,262 @@
+﻿<UserControl x:Class="CodingTrackerWPF.Views.FiltersDialogView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:CodingTrackerWPF.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <!-- Define a Style for Label to Match Button's Text Color -->
+        <Style x:Key="MaterialDesignLabelButtonColor" TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource MaterialDesign.Brush.Primary}"/>
+            <Setter Property="FontWeight" Value="Medium"/>
+        </Style>
+    </UserControl.Resources>
+
+    <materialDesign:DialogHost Identifier="FiltersDialog">
+        <materialDesign:DialogHost.DialogContent>
+            <TextBlock Text="Placeholder"
+                   Margin="16"/>
+        </materialDesign:DialogHost.DialogContent>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Row="0"
+                Grid.Column="0"
+                Name="FilterDateRange"
+                Content="Filter by Date Range"
+                FontSize="32"
+                Height="70"
+                VerticalAlignment="Center"
+                Width="350"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Command="{Binding GetDateRangeCommand}"
+                Margin="0,5,0,5">
+            </Button>
+
+            <Grid Grid.Row="0"
+              Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Button Grid.Row="0"
+                    Grid.Column="0"
+                    Name="FilterByWeek"
+                    Content="Filter by Week"
+                    FontSize="16"
+                    Height="auto"
+                    VerticalAlignment="Center"
+                    Width="auto"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding SetPeriodCommand}"
+                    CommandParameter="Week"
+                    Margin="0,5,0,5">
+                </Button>
+
+                <Button Grid.Row="0"
+                    Grid.Column="1"
+                    Name="FilterByMonth"
+                    Content="Filter by Month"
+                    FontSize="16"
+                    Height="auto"
+                    VerticalAlignment="Center"
+                    Width="auto"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding SetPeriodCommand}"
+                    CommandParameter="Month"
+                    Margin="0,5,0,5">
+                </Button>
+
+                <Button Grid.Row="0"
+                    Grid.Column="2"
+                    Name="FilterByYear"
+                    Content="Filter by Year"
+                    FontSize="16"
+                    Height="auto"
+                    VerticalAlignment="Center"
+                    Width="auto"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    Command="{Binding SetPeriodCommand}"
+                    CommandParameter="Year"
+                    Margin="0,5,0,5">
+                </Button>
+
+                <ComboBox Grid.Row="1"
+                      Grid.ColumnSpan="3"
+                      Name="FilterPeriod"
+                      materialDesign:HintAssist.Hint="Choose a period"
+                      FontSize="30"
+                      Height="auto"
+                      VerticalAlignment="Center"
+                      Width="auto"
+                      Style="{StaticResource MaterialDesignFilledComboBox}"
+                      materialDesign:HintAssist.FloatingScale="0.5"
+                      Padding="25,25,10,15"
+                      Margin="0,5,0,5"
+                      ItemsSource="{Binding PeriodComboBoxItems}"
+                      SelectedItem="{Binding SelectedPeriodComboBoxItem, Mode=TwoWay}">
+                </ComboBox>
+            </Grid>
+
+            <Grid Grid.Row="1" 
+              Grid.Column="0">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                       Grid.ColumnSpan="2"
+                       Name="FilterDuration"
+                       Content="Filter by Start and End Duration"
+                       FontSize="28"
+                       FontFamily="{StaticResource MaterialDesignFont}"
+                       Height="auto"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       Width="auto"
+                       Style="{StaticResource MaterialDesignLabelButtonColor}">
+                </Label>
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="0"
+                         Name="StartHoursBox" 
+                         materialDesign:HintAssist.Hint="Hours" 
+                         materialDesign:HintAssist.FloatingScale="0.5"
+                         FontSize="24" 
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                         Text="{Binding StartHours}"
+                         PreviewTextInput="StartHoursBox_PreviewTextInput"
+                         MaxLength="3"/>
+
+                <TextBox Grid.Row="1"
+                         Grid.Column="1"
+                         Name="StartMinutesBox" 
+                         materialDesign:HintAssist.Hint="Minutes" 
+                         materialDesign:HintAssist.FloatingScale="0.5"
+                         FontSize="24"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                         Text="{Binding StartMinutes}"
+                         PreviewTextInput="StartMinutesBox_PreviewTextInput"
+                         TextChanged="StartMinutesBox_TextChanged"
+                         MaxLength="2"/>
+
+                <TextBox Grid.Row="2"
+                         Grid.Column="0"
+                         Name="EndHoursBox" 
+                         materialDesign:HintAssist.Hint="Hours" 
+                         materialDesign:HintAssist.FloatingScale="0.5"
+                         FontSize="24" 
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                         Text="{Binding EndHours}"
+                         PreviewTextInput="EndHoursBox_PreviewTextInput"
+                         MaxLength="3"/>
+
+                <TextBox Grid.Row="2"
+                         Grid.Column="1"
+                         Name="EndMinutesBox" 
+                         materialDesign:HintAssist.Hint="Minutes" 
+                         materialDesign:HintAssist.FloatingScale="0.5"
+                         FontSize="24"
+                         VerticalAlignment="Center"
+                         HorizontalAlignment="Stretch"
+                         Style="{StaticResource MaterialDesignFilledTextBox}"
+                         Text="{Binding EndMinutes}"
+                         PreviewTextInput="EndMinutesBox_PreviewTextInput"
+                         TextChanged="EndMinutesBox_TextChanged"
+                         MaxLength="2"/>
+            </Grid>
+
+            <Grid Grid.Row="1"
+              Grid.Column="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <Label Grid.Row="0"
+                   Grid.ColumnSpan="2"
+                   Name="FilterDayOfWeek"
+                   Content="Filter by the day of week"
+                   FontSize="28"
+                   FontFamily="{StaticResource MaterialDesignFont}"
+                   Height="auto"
+                   VerticalAlignment="Center"
+                   HorizontalAlignment="Center"
+                   Width="auto"
+                   Style="{StaticResource MaterialDesignLabelButtonColor}">
+                </Label>
+
+                <ComboBox Grid.Row="1"
+                      Grid.ColumnSpan="3"
+                      Name="FilterDayOfWeekComboBox"
+                      materialDesign:HintAssist.Hint="Choose a day of the week"
+                      materialDesign:HintAssist.FloatingScale="0.5"
+                      FontSize="30"
+                      Height="auto"
+                      VerticalAlignment="Center"
+                      Width="auto"
+                      Style="{StaticResource MaterialDesignFilledComboBox}"
+                      Padding="25,25,10,15"
+                      Margin="0,5,0,5"
+                      ItemsSource="{Binding DayOfWeekComboBoxItems}"
+                      SelectedItem="{Binding SelectedDayOfWeek, Mode=TwoWay}">
+                </ComboBox>
+            </Grid>
+
+            <Button Grid.Row="2"
+                Grid.Column="1"
+                Name="SubmitWeeklyGoal"
+                Content="Submit"
+                Width="auto"
+                Height="50"
+                FontSize="30"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Command="{Binding SubmitCommand}"/>
+
+            <Button Grid.Row="2"
+                Grid.Column="0"
+                Name="CancelWeeklyGoal"
+                Content="Cancel"
+                Width="auto"
+                Height="50"
+                FontSize="30"
+                HorizontalAlignment="Stretch"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                Margin="5"
+                Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
+
+        </Grid>
+    </materialDesign:DialogHost>
+</UserControl>
