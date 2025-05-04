@@ -3,7 +3,6 @@ using CodingTrackerWPF.Models;
 using CodingTrackerWPF.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using MySqlX.XDevAPI;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 
@@ -11,8 +10,6 @@ namespace CodingTrackerWPF.ViewModels;
 
 internal partial class DateTimeViewModel : ObservableObject
 {
-    private FilteringService _filteringService = new();
-
     [ObservableProperty]
     public ObservableCollection<CodingSession> codingSessions = [];
     [ObservableProperty]
@@ -29,16 +26,18 @@ internal partial class DateTimeViewModel : ObservableObject
     private readonly IDateTimeDialogService _dateTimeDialogService;
     private readonly ICodingSessionBuilder _codingSessionBuilder;
     private readonly IFiltersDialogService _filtersDialogService;
+    private readonly IFilteringService _filteringService;
 
     private readonly string _rootDialogID = "RootDialog";
 
     public DateTimeViewModel(ICodingSessionService codingSessionService, IDateTimeDialogService dateTimeDialogService, 
-        ICodingSessionBuilder codingSessionBuilder, IFiltersDialogService filtersDialogService)
+        ICodingSessionBuilder codingSessionBuilder, IFiltersDialogService filtersDialogService, IFilteringService filteringService)
     {
         _codingSessionService = codingSessionService;
         _dateTimeDialogService = dateTimeDialogService;
         _codingSessionBuilder = codingSessionBuilder;
         _filtersDialogService = filtersDialogService;
+        _filteringService = filteringService;
 
         AddCommand = new AsyncRelayCommand(AddSessionAsync);
         DeleteCommand = new AsyncRelayCommand(DeleteSessionAsync, CanDeleteSession);

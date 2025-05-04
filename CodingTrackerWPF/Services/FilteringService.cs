@@ -1,10 +1,11 @@
-﻿using CodingTrackerWPF.Models;
+﻿using CodingTrackerWPF.Interfaces;
+using CodingTrackerWPF.Models;
 using System.Collections.ObjectModel;
 using System.Globalization;
 
 namespace CodingTrackerWPF.Services;
 
-public class FilteringService
+public class FilteringService : IFilteringService
 {
     public List<CodingSession> Filtering(ObservableCollection<CodingSession> sessions, FiltersModel filters)
     {
@@ -38,7 +39,7 @@ public class FilteringService
         return filteredSessions.ToList();
     }
 
-    private DateTime? GetDateRangeFromPeriod(string period)
+    public DateTime? GetDateRangeFromPeriod(string period)
     {
         var now = DateTime.Now;
 

@@ -5,43 +5,176 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CodingTrackerWPF.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+             Loaded="UserControl_Loaded"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <materialDesign:DialogHost Identifier="HomeRootDialog">
-        
+
         <materialDesign:DialogHost.DialogContent>
             <TextBlock Text="Placeholder"
                Margin="16"/>
         </materialDesign:DialogHost.DialogContent>
         
         <Grid>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-            <Grid Grid.Row="0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-            
-                <Button Grid.Column="0"
-                    Name="CreateWeeklyGoal"
-                    Content="Set Weekly Goal"
-                    Style="{StaticResource MaterialDesignFlatButton}"
-                    Margin="0,5,0,5"
-                    HorizontalAlignment="Left"
-                    Command="{Binding ShowTextBox}"/>
+            <materialDesign:Card Grid.Column="0"
+                                 Padding="16" 
+                                 Margin="8" 
+                                 Width="Auto"
+                                 Height="Auto">
+                <StackPanel>
+                    <TextBlock Text="Summary Panel"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   FontWeight="Bold"/>
 
-                <TextBlock Grid.Column="1"
-                           Name="WeeklyGoalTextBlock"
-                           Text="{Binding WeeklyGoalStats}"
-                           FontSize="16"
-                           HorizontalAlignment="Right"
-                           VerticalAlignment="Center"
-                           Margin="0,5,5,5"
-                           Style="{StaticResource MaterialDesignBody1TextBlock}"/>
+                    <TextBlock Text="Total Time Coded" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding TotalTimeCoded}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Number of Sessions" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding NumberOfTotalSessions}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Average Session Duration" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding AverageSessionDuration}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Longest Session" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding LongestSessionDuration}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Shortest Session" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding ShortestSessionDuration}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <materialDesign:Card Grid.Column="1"
+                                     Padding="16" 
+                                     Margin="8" 
+                                     Width="Auto"
+                                     Height="Auto">
+                <StackPanel>
+                    <TextBlock Text="Timeframe Panel" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Time Coded Today" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding TotalTimeCodedToday}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Time Coded This Week" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding TotalTimeCodedThisWeek}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Time Coded This Month" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding TotalTimeCodedThisMonth}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+
+                    <TextBlock Text="Average Daily Time&#x0a;(Last 7 Days)" 
+                                   TextAlignment="Center"
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}"
+                                   Margin="0,25,0,0"/>
+                    <TextBlock Text="{Binding AverageDailyTimeThisWeek}" 
+                                   HorizontalAlignment="Center"
+                                   Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
+                                   FontWeight="Bold"/>
+                </StackPanel>
+            </materialDesign:Card>
+
+            <Grid Grid.Column="2">
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel>
+                    <TextBlock Grid.Row="0"
+                               Text="Weekly Goal"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               Margin="0,25,5,5"
+                               Style="{StaticResource MaterialDesignHeadline3TextBlock}"
+                               FontWeight="Bold"/>
+                    <TextBlock Name="WeeklyGoalTextBlock"
+                               Text="{Binding WeeklyGoalStats}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,25,0,0"
+                               Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+
+                    <ProgressBar Grid.Row="0"
+                                 Height="10"
+                                 Value="{Binding ProgressBarValue}"/>
+
+                    <Button Grid.Column="0"
+                                Name="CreateWeeklyGoal"
+                                Content="Set Weekly Goal"
+                                Height="Auto"
+                                FontSize="32"
+                                Style="{StaticResource MaterialDesignFlatButton}"
+                                Margin="0,5,0,5"
+                                HorizontalAlignment="Center"
+                                Command="{Binding ShowTextBox}"/>
+                </StackPanel>
+
+                <lvc:CartesianChart Grid.Row="1"
+                                    Name="WeeklyGoalChart"
+                                    Margin="0,5,0,0"
+                                    Series="{Binding Series}"
+                                    XAxes="{Binding XAxes}"
+                                    YAxes="{Binding YAxes}"/>
+
             </Grid>
         </Grid>
     </materialDesign:DialogHost>

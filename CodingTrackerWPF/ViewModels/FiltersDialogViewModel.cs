@@ -1,7 +1,6 @@
 ﻿using CodingTrackerWPF.Enums;
 using CodingTrackerWPF.Interfaces;
 using CodingTrackerWPF.Models;
-using CodingTrackerWPF.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MaterialDesignThemes.Wpf;
@@ -13,8 +12,6 @@ namespace CodingTrackerWPF.ViewModels;
 
 public partial class FiltersDialogViewModel : ObservableObject
 {
-    private FilteringService _filteringService = new();
-
     private readonly IDateTimeDialogService _dateTimeDialogService;
 
     public IAsyncRelayCommand? GetDateRangeCommand { get; }

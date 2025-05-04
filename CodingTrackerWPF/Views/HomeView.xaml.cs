@@ -1,9 +1,7 @@
 ﻿using CodingTrackerWPF.Interfaces;
 using CodingTrackerWPF.Services;
 using CodingTrackerWPF.ViewModels;
-using System.Text.RegularExpressions;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CodingTrackerWPF.Views;
 
@@ -21,7 +19,17 @@ public partial class HomeView : UserControl
         IWeeklyGoalService weeklyGoalService = new WeeklyGoalService(queryService);
         IWeeklyGoalDialogService weeklyGoalDialogService = new WeeklyGoalDialogService();
         IWeeklyGoalBuilder weeklyGoalBuilder = new WeeklyGoalBuilder();
+        ICodingSessionService codingSessionService = new CodingSessionService(queryService);
+        ICodingStatsService codingStatsService = new CodingStatsService();
 
-        DataContext = new HomeViewModel(weeklyGoalService, weeklyGoalDialogService, weeklyGoalBuilder);
+        DataContext = new HomeViewModel(weeklyGoalService, weeklyGoalDialogService, weeklyGoalBuilder, codingSessionService, codingStatsService);
+    }
+
+    private async void UserControl_Loaded(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (DataContext is HomeViewModel viewModel)
+        {
+            await viewModel.LoadSessionsAsync();
+        }
     }
 }
