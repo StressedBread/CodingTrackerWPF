@@ -1,0 +1,1 @@
+Icon made by [SBTS2018](https://www.flaticon.com/authors/sbts2018) from [Flaticon](https://www.flaticon.com)
