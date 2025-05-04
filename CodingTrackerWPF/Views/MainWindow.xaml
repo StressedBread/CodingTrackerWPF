@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:CodingTrackerWPF"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Title="MainWindow" Height="720" Width="1280">
+        Title="MainWindow" Height="720" Width="1280"
+        Icon="/Resources/clock.ico">
 
     <!--Drawer-->
     <materialDesign:DrawerHost x:Name="DrawerHost"
