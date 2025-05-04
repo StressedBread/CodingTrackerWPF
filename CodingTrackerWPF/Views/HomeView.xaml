@@ -138,9 +138,8 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel>
-                    <TextBlock Grid.Row="0"
-                               Text="Weekly Goal"
+                <StackPanel Grid.Row="0">
+                    <TextBlock Text="Weekly Goal"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Top"
                                Margin="0,25,5,5"
@@ -168,12 +167,25 @@
                                 Command="{Binding ShowTextBox}"/>
                 </StackPanel>
 
-                <lvc:CartesianChart Grid.Row="1"
-                                    Name="WeeklyGoalChart"
-                                    Margin="0,5,0,0"
-                                    Series="{Binding Series}"
-                                    XAxes="{Binding XAxes}"
-                                    YAxes="{Binding YAxes}"/>
+                <Grid Grid.Row="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    
+                    <TextBlock Grid.Row="0"
+                               Text="Weekly Coding Time"
+                               FontSize="18"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               Margin="0,0,0,10"/>  
+                    <lvc:CartesianChart Grid.Row="1"
+                                        Name="WeeklyGoalChart"
+                                        Margin="0,5,0,0"
+                                        Series="{Binding Series}"
+                                        XAxes="{Binding XAxes}"
+                                        YAxes="{Binding YAxes}"/>
+                </Grid>
 
             </Grid>
         </Grid>

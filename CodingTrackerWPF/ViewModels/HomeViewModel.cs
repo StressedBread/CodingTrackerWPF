@@ -133,9 +133,9 @@ public partial class HomeViewModel : ObservableObject
 
     public void AddSeries(List<TimeSpan> timeCodedPerDayThisWeek)
     {
-        var values = timeCodedPerDayThisWeek.Select(x => (double)x.TotalHours).ToArray();
+        var values = timeCodedPerDayThisWeek.Select(x => x.TotalHours).ToArray();
         var labels = timeCodedPerDayThisWeek
-                        .Select(ts => $"{(int)ts.TotalHours}h {ts.Minutes}m")
+                        .Select(s => $"{(int)s.TotalHours}h {s.Minutes}m")
                         .ToArray();
 
         Series =
@@ -167,6 +167,7 @@ public partial class HomeViewModel : ObservableObject
         [
             new Axis
             {
+                Name = "Time",
                 Labeler = value =>
                 {
                     var ts = TimeSpan.FromHours(value);
@@ -176,7 +177,8 @@ public partial class HomeViewModel : ObservableObject
                 TextSize = 12,
                 Position = LiveChartsCore.Measure.AxisPosition.Start,
                 LabelsPaint = new SolidColorPaint(SKColors.White),
-                NamePaint = new SolidColorPaint(SKColors.White)
+                NamePaint = new SolidColorPaint(SKColors.White),
+                MinLimit = 0,
             }
         ];
 
