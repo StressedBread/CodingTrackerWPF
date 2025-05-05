@@ -110,7 +110,7 @@
                       Style="{StaticResource MaterialDesignFilledComboBox}"
                       materialDesign:HintAssist.FloatingScale="0.5"
                       Padding="25,25,10,15"
-                      Margin="0,5,0,5"
+                      Margin="5"
                       ItemsSource="{Binding PeriodComboBoxItems}"
                       SelectedItem="{Binding SelectedPeriodComboBoxItem, Mode=TwoWay}">
                 </ComboBox>
@@ -139,6 +139,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        Width="auto"
+                       Margin="5"
                        Style="{StaticResource MaterialDesignLabelButtonColor}">
                 </Label>
 
@@ -150,6 +151,7 @@
                          FontSize="24" 
                          VerticalAlignment="Center"
                          HorizontalAlignment="Stretch"
+                         Margin="5"
                          Style="{StaticResource MaterialDesignFilledTextBox}"
                          Text="{Binding StartHours}"
                          PreviewTextInput="StartHoursBox_PreviewTextInput"
@@ -163,6 +165,7 @@
                          FontSize="24"
                          VerticalAlignment="Center"
                          HorizontalAlignment="Stretch"
+                         Margin="5"
                          Style="{StaticResource MaterialDesignFilledTextBox}"
                          Text="{Binding StartMinutes}"
                          PreviewTextInput="StartMinutesBox_PreviewTextInput"
@@ -177,6 +180,7 @@
                          FontSize="24" 
                          VerticalAlignment="Center"
                          HorizontalAlignment="Stretch"
+                         Margin="5"
                          Style="{StaticResource MaterialDesignFilledTextBox}"
                          Text="{Binding EndHours}"
                          PreviewTextInput="EndHoursBox_PreviewTextInput"
@@ -190,6 +194,7 @@
                          FontSize="24"
                          VerticalAlignment="Center"
                          HorizontalAlignment="Stretch"
+                         Margin="5"
                          Style="{StaticResource MaterialDesignFilledTextBox}"
                          Text="{Binding EndMinutes}"
                          PreviewTextInput="EndMinutesBox_PreviewTextInput"
@@ -214,6 +219,7 @@
                    VerticalAlignment="Center"
                    HorizontalAlignment="Center"
                    Width="auto"
+                   Margin="5"
                    Style="{StaticResource MaterialDesignLabelButtonColor}">
                 </Label>
 
@@ -228,7 +234,7 @@
                       Width="auto"
                       Style="{StaticResource MaterialDesignFilledComboBox}"
                       Padding="25,25,10,15"
-                      Margin="0,5,0,5"
+                      Margin="5"
                       ItemsSource="{Binding DayOfWeekComboBoxItems}"
                       SelectedItem="{Binding SelectedDayOfWeek, Mode=TwoWay}">
                 </ComboBox>
@@ -242,6 +248,7 @@
                 Height="50"
                 FontSize="30"
                 HorizontalAlignment="Stretch"
+                Margin="5"
                 Style="{StaticResource MaterialDesignFlatButton}"
                 Command="{Binding SubmitCommand}"/>
 
@@ -253,8 +260,8 @@
                 Height="50"
                 FontSize="30"
                 HorizontalAlignment="Stretch"
-                Style="{StaticResource MaterialDesignFlatButton}"
                 Margin="5"
+                Style="{StaticResource MaterialDesignFlatButton}"
                 Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"/>
 
         </Grid>
