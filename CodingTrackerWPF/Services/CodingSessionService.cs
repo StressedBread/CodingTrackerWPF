@@ -15,7 +15,7 @@ public class CodingSessionService(QueryService queryService) : ICodingSessionSer
         _queryService.ExecuteQuery(query);
     }
 
-    public async Task<List<CodingSession>> ViewSessionsAsync()
+    public async Task<List<CodingSession>?> ViewSessionsAsync()
     {
         var query = QueryStore.GetAllSessions;
 

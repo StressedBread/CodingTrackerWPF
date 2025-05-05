@@ -6,7 +6,7 @@ public interface ICodingSessionService
 {
     void CreateCodingSessionsTable();
     void AddSession(CodingSession session);
-    Task<List<CodingSession>> ViewSessionsAsync();
+    Task<List<CodingSession>?> ViewSessionsAsync();
     void UpdateStartTime(CodingSession session);
     void UpdateEndTime(CodingSession session);
     void DeleteSession(Int32 id);

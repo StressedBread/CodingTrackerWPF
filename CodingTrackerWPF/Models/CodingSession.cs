@@ -24,11 +24,11 @@ public class CodingSession
         EndDateTime = endDateTime;
     }
 
-    public CodingSession(Int32 id, DateTime startDateTime, DateTime endDateTime, TimeSpan duration)
+    public CodingSession(Int32 id = 0, DateTime? startDateTime = null, DateTime? endDateTime = null, TimeSpan? duration = null)
     {
         Id = id;
-        StartDateTime = startDateTime;
-        EndDateTime = endDateTime;
-        Duration = duration;
+        StartDateTime = startDateTime ?? DateTime.MinValue;
+        EndDateTime = endDateTime ?? DateTime.MinValue;
+        Duration = duration ?? TimeSpan.MinValue;
     }
 }
