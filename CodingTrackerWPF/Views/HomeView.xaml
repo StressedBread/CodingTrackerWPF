@@ -18,117 +18,117 @@
         
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition Width="3*"/>
             </Grid.ColumnDefinitions>
 
             <materialDesign:Card Grid.Column="0"
                                  Padding="16" 
-                                 Margin="8" 
-                                 Width="Auto"
-                                 Height="Auto">
-                <StackPanel>
-                    <TextBlock Text="Summary Panel"
+                                 Margin="8">
+                <Viewbox VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Summary Panel"
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Total Time Coded" 
+                        <TextBlock Text="Total Time Coded" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding TotalTimeCoded}" 
+                        <TextBlock Text="{Binding TotalTimeCoded}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Number of Sessions" 
+                        <TextBlock Text="Number of Sessions" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding NumberOfTotalSessions}" 
+                        <TextBlock Text="{Binding NumberOfTotalSessions}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Average Session Duration" 
+                        <TextBlock Text="Average Session Duration" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding AverageSessionDuration}" 
+                        <TextBlock Text="{Binding AverageSessionDuration}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Longest Session" 
+                        <TextBlock Text="Longest Session" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding LongestSessionDuration}" 
+                        <TextBlock Text="{Binding LongestSessionDuration}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Shortest Session" 
+                        <TextBlock Text="Shortest Session" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding ShortestSessionDuration}" 
+                        <TextBlock Text="{Binding ShortestSessionDuration}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
-                </StackPanel>
+                    </StackPanel>
+                </Viewbox>
             </materialDesign:Card>
 
             <materialDesign:Card Grid.Column="1"
                                      Padding="16" 
-                                     Margin="8" 
-                                     Width="Auto"
-                                     Height="Auto">
-                <StackPanel>
-                    <TextBlock Text="Timeframe Panel" 
+                                     Margin="8">
+                <Viewbox VerticalAlignment="Top">
+                    <StackPanel>
+                        <TextBlock Text="Timeframe Panel" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Time Coded Today" 
+                        <TextBlock Text="Time Coded Today" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding TotalTimeCodedToday}" 
+                        <TextBlock Text="{Binding TotalTimeCodedToday}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Time Coded This Week" 
+                        <TextBlock Text="Time Coded This Week" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding TotalTimeCodedThisWeek}" 
+                        <TextBlock Text="{Binding TotalTimeCodedThisWeek}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Time Coded This Month" 
+                        <TextBlock Text="Time Coded This Month" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding TotalTimeCodedThisMonth}" 
+                        <TextBlock Text="{Binding TotalTimeCodedThisMonth}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
 
-                    <TextBlock Text="Average Daily Time&#x0a;(Last 7 Days)" 
+                        <TextBlock Text="Average Daily Time&#x0a;(Last 7 Days)" 
                                    TextAlignment="Center"
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}"
                                    Margin="0,25,0,0"/>
-                    <TextBlock Text="{Binding AverageDailyTimeThisWeek}" 
+                        <TextBlock Text="{Binding AverageDailyTimeThisWeek}" 
                                    HorizontalAlignment="Center"
                                    Style="{StaticResource MaterialDesignHeadline4TextBlock}" 
                                    FontWeight="Bold"/>
-                </StackPanel>
+                    </StackPanel>
+                </Viewbox>
             </materialDesign:Card>
 
             <Grid Grid.Column="2">
@@ -138,25 +138,26 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <StackPanel Grid.Row="0">
-                    <TextBlock Text="Weekly Goal"
+                <Viewbox>
+                    <StackPanel Grid.Row="0">
+                        <TextBlock Text="Weekly Goal"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Top"
                                Margin="0,25,5,5"
                                Style="{StaticResource MaterialDesignHeadline3TextBlock}"
                                FontWeight="Bold"/>
-                    <TextBlock Name="WeeklyGoalTextBlock"
+                        <TextBlock Name="WeeklyGoalTextBlock"
                                Text="{Binding WeeklyGoalStats}"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Center"
                                Margin="0,25,0,0"
                                Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
 
-                    <ProgressBar Grid.Row="0"
+                        <ProgressBar Grid.Row="0"
                                  Height="10"
                                  Value="{Binding ProgressBarValue}"/>
 
-                    <Button Grid.Column="0"
+                        <Button Grid.Column="0"
                                 Name="CreateWeeklyGoal"
                                 Content="Set Weekly Goal"
                                 Height="Auto"
@@ -165,7 +166,8 @@
                                 Margin="0,5,0,5"
                                 HorizontalAlignment="Center"
                                 Command="{Binding ShowTextBox}"/>
-                </StackPanel>
+                    </StackPanel>
+                </Viewbox>
 
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
